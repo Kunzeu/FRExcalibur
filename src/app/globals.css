@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #F6F6F6;
+  --foreground: #000000;
+  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.dark {
+  --background: #000000;
+  --foreground: #FFFFFF;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --background: #000000;
+    --foreground: #FFFFFF;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-inter);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Compatibilidad entre MUI y Tailwind */
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Utilidades personalizadas */
+  .glass-effect {
+    @apply bg-white/80 backdrop-blur-lg border border-white/20;
+  }
+
+  .glass-effect-dark {
+    @apply bg-slate-900/80 backdrop-blur-lg border border-slate-700/20;
+  }
+}
+
+/* Date Input Custom Styles */
+.date-input-custom::-webkit-calendar-picker-indicator {
+  filter: invert(68%) sepia(79%) saturate(1686%) hue-rotate(359deg) brightness(96%) contrast(92%);
+  transform: scale(1.5);
+  cursor: pointer;
+  background-position: center;
+  margin-right: -0.5rem;
+}
+
+.date-input-custom::-webkit-calendar-picker-indicator:hover {
+  filter: invert(52%) sepia(98%) saturate(1686%) hue-rotate(359deg) brightness(96%) contrast(92%);
+}
+
+.date-input-custom {
+  font-family: inherit;
+  min-height: 3rem;
+}
+
+@media (max-width: 640px) {
+  .date-input-custom {
+    appearance: none;
+    -webkit-appearance: none;
+    min-height: 44px;
+    /* Touchable area */
+  }
+}
+
+/* Select and Input text visibility */
+select,
+select option {
+  color: #111827 !important;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="tel"],
+input[type="date"],
+textarea {
+  color: #111827 !important;
+}
+
+input:disabled,
+textarea:disabled {
+  color: #6B7280 !important;
+}
+
+.dark input:disabled,
+.dark textarea:disabled {
+  color: #9CA3AF !important;
+}
