@@ -1,5 +1,4 @@
 
-import { useState } from 'react';
 import { Box, Typography, Grid, FormControlLabel, Checkbox, RadioGroup, Radio, Button, Tooltip } from '@mui/material';
 import { Autocomplete } from '@react-google-maps/api';
 import { CustomInput } from '@/components/forms/CustomInput';
@@ -29,7 +28,7 @@ export default function Step3ClientInjuryComplaints({
     showSourceSection,
     setShowSourceSection,
     activePerson = 1,
-    setActivePerson,
+    setActivePerson: _setActivePerson,
     handlePersonChange
 }: Step3ClientInjuryComplaintsProps) {
 

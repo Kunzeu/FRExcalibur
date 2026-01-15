@@ -1,5 +1,5 @@
 
-import { Box, Typography, Grid, FormControlLabel, Checkbox, Button, Autocomplete, TextField, FormHelperText, Tooltip } from '@mui/material';
+import { Box, Typography, Grid, FormControlLabel, Checkbox, Button, Autocomplete, TextField, Tooltip } from '@mui/material';
 import { CustomInput } from '@/components/forms/CustomInput';
 import { PIIntakeFormData, PIIntakeValidationErrors } from '@/lib/types/pi-intake';
 import { BEHALF_OPTIONS } from '@/lib/constants/pi-intake-options';

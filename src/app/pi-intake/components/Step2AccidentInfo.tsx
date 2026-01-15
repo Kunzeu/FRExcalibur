@@ -1,5 +1,4 @@
 
-import { useState } from 'react';
 import { Box, Typography, Grid, FormControlLabel, RadioGroup, Radio, Button, FormHelperText } from '@mui/material';
 import { Autocomplete } from '@react-google-maps/api';
 import { CustomInput } from '@/components/forms/CustomInput';
@@ -26,7 +25,7 @@ export default function Step2AccidentInfo({
     nextStep,
     prevStep,
     activePerson,
-    setActivePerson,
+    setActivePerson: _setActivePerson,
     handlePersonChange
 }: Step2AccidentInfoProps) {
     // const [activePerson, setActivePerson] = useState(1); - State lifted to parent
