@@ -69,6 +69,10 @@ export default function Step2AccidentInfo({
         handleChange('accidentLocation', address);
     });
 
+    const { onLoad: onLoadAmbulanceHospital, onPlaceChanged: onPlaceChangedAmbulanceHospital } = useGoogleAddressAutocomplete((address) => {
+        handleChange('ambulanceHospital', address);
+    });
+
     // Open Google Maps Helper
     const openGoogleMaps = () => {
         if (!formData.accidentLocation) return;
@@ -776,9 +780,12 @@ export default function Step2AccidentInfo({
                                             value="yes"
                                             control={
                                                 <Radio
-                                                    icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="16" rx="2" stroke="#D1D5DB" strokeWidth="2" /></svg>}
-                                                    checkedIcon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="16" rx="2" fill="#EAB308" /><path d="M8 12L11 15L16 9" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>}
-                                                    sx={{ padding: '9px' }}
+                                                    sx={{
+                                                        color: '#D1D5DB',
+                                                        '&.Mui-checked': {
+                                                            color: '#E8B007',
+                                                        },
+                                                    }}
                                                 />
                                             }
                                             label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
@@ -788,9 +795,12 @@ export default function Step2AccidentInfo({
                                             value="no"
                                             control={
                                                 <Radio
-                                                    icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="16" rx="2" stroke="#D1D5DB" strokeWidth="2" /></svg>}
-                                                    checkedIcon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="16" rx="2" fill="#EAB308" /><path d="M8 12L11 15L16 9" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>}
-                                                    sx={{ padding: '9px' }}
+                                                    sx={{
+                                                        color: '#D1D5DB',
+                                                        '&.Mui-checked': {
+                                                            color: '#E8B007',
+                                                        },
+                                                    }}
                                                 />
                                             }
                                             label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
@@ -999,46 +1009,429 @@ export default function Step2AccidentInfo({
                             </Typography>
                             <Box className="max-w-4xl mx-auto mb-12">
                                 <Box className="mb-8">
-                                    <label id="ambulance-called-label" className="block text-sm font-bold text-gray-900 dark:text-white mb-3">
-                                        Was the Ambulance Called?
+                                    <label className="block text-sm font-bold text-gray-900 dark:text-white mb-3">
+                                        Did the Ambulance arrive at the Scene?
                                     </label>
                                     <RadioGroup
-                                        aria-labelledby="ambulance-called-label"
                                         row
-                                        value={formData.ambulanceCalled || ''}
-                                        onChange={(e) => handleChange('ambulanceCalled', e.target.value)}
+                                        value={formData.ambulanceArrivedAtScene || ''}
+                                        onChange={(e) => handleChange('ambulanceArrivedAtScene', e.target.value)}
                                     >
                                         <FormControlLabel
                                             value="yes"
                                             control={
                                                 <Radio
-                                                    icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="16" rx="2" stroke="#D1D5DB" strokeWidth="2" /></svg>}
-                                                    checkedIcon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="16" rx="2" fill="#EAB308" /><path d="M8 12L11 15L16 9" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>}
-                                                    sx={{ padding: '9px' }}
+                                                    sx={{
+                                                        color: '#D1D5DB',
+                                                        '&.Mui-checked': {
+                                                            color: '#E8B007',
+                                                        },
+                                                    }}
                                                 />
                                             }
                                             label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
-                                            className="mr-8"
+                                            className="mr-12"
                                         />
                                         <FormControlLabel
                                             value="no"
                                             control={
                                                 <Radio
-                                                    icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="16" rx="2" stroke="#D1D5DB" strokeWidth="2" /></svg>}
-                                                    checkedIcon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="16" rx="2" fill="#EAB308" /><path d="M8 12L11 15L16 9" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>}
-                                                    sx={{ padding: '9px' }}
+                                                    sx={{
+                                                        color: '#D1D5DB',
+                                                        '&.Mui-checked': {
+                                                            color: '#E8B007',
+                                                        },
+                                                    }}
                                                 />
                                             }
                                             label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
                                         />
                                     </RadioGroup>
                                 </Box>
+
+                                {formData.ambulanceArrivedAtScene === 'no' && (
+                                    <Box className="mb-8 animate-fade-in-up">
+                                        <label className="block text-sm font-bold text-gray-900 dark:text-white mb-3">
+                                            Did you present to the Hospital on your own?
+                                        </label>
+                                        <RadioGroup
+                                            row
+                                            value={formData.presentedToHospital || ''}
+                                            onChange={(e) => handleChange('presentedToHospital', e.target.value)}
+                                        >
+                                            <FormControlLabel
+                                                value="yes"
+                                                control={
+                                                    <Radio
+                                                        sx={{
+                                                            color: '#D1D5DB',
+                                                            '&.Mui-checked': {
+                                                                color: '#E8B007',
+                                                            },
+                                                        }}
+                                                    />
+                                                }
+                                                label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
+                                                className="mr-12"
+                                            />
+                                            <FormControlLabel
+                                                value="no"
+                                                control={
+                                                    <Radio
+                                                        sx={{
+                                                            color: '#D1D5DB',
+                                                            '&.Mui-checked': {
+                                                                color: '#E8B007',
+                                                            },
+                                                        }}
+                                                    />
+                                                }
+                                                label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
+                                            />
+                                        </RadioGroup>
+
+                                        {formData.presentedToHospital === 'yes' && (
+                                            <Box className="flex flex-col gap-4 mt-8">
+                                                <Box className="mb-2">
+                                                    <label className="block text-sm font-bold mb-2 text-gray-900 dark:text-white">
+                                                        Which Doctor or Hospital did you go to?
+                                                    </label>
+                                                    {isLoaded && (
+                                                        <Autocomplete
+                                                            onLoad={onLoadAmbulanceHospital}
+                                                            onPlaceChanged={onPlaceChangedAmbulanceHospital}
+                                                        >
+                                                            <input
+                                                                type="text"
+                                                                value={formData.ambulanceHospital || ''}
+                                                                onChange={(e) => handleChange('ambulanceHospital', e.target.value)}
+                                                                className="w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 text-base !text-gray-900 !bg-white border-gray-200 dark:border-gray-700 focus:border-primary-main focus:outline-none focus:ring-2 focus:ring-primary-main/20 disabled:bg-gray-100 dark:disabled:bg-gray-900 placeholder:text-gray-400"
+                                                            />
+                                                        </Autocomplete>
+                                                    )}
+                                                </Box>
+                                                <Button
+                                                    variant="contained"
+                                                    disabled={!formData.ambulanceHospital}
+                                                    onClick={() => {
+                                                        const query = formData.ambulanceHospital ? encodeURIComponent(formData.ambulanceHospital) : 'hospitals';
+                                                        window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
+                                                    }}
+                                                    sx={{
+                                                        backgroundColor: 'white !important',
+                                                        color: 'black !important',
+                                                        borderRadius: '8px',
+                                                        textTransform: 'none',
+                                                        fontWeight: '600',
+                                                        height: '40px',
+                                                        width: '150px',
+                                                        border: '1px solid #D1D5DB',
+                                                        boxShadow: 'none',
+                                                        '&:hover': {
+                                                            backgroundColor: '#F3F4F6 !important',
+                                                            borderColor: '#9CA3AF',
+                                                        },
+                                                        '&.Mui-disabled': {
+                                                            backgroundColor: '#E5E7EB !important',
+                                                            color: '#9CA3AF !important',
+                                                            border: 'none',
+                                                        }
+                                                    }}
+                                                >
+                                                    Find Hospital
+                                                </Button>
+                                            </Box>
+                                        )}
+                                    </Box>
+                                )}
+
+                                {formData.ambulanceArrivedAtScene === 'yes' && (
+                                    <Box className="space-y-8 animate-fade-in-up">
+                                        <Box>
+                                            <label className="block text-sm font-bold text-gray-900 dark:text-white mb-3">
+                                                Did Paramedics treat you?
+                                            </label>
+                                            <RadioGroup
+                                                row
+                                                value={formData.paramedicsTreated || ''}
+                                                onChange={(e) => handleChange('paramedicsTreated', e.target.value)}
+                                            >
+                                                <FormControlLabel
+                                                    value="yes"
+                                                    control={
+                                                        <Radio
+                                                            sx={{
+                                                                color: '#D1D5DB',
+                                                                '&.Mui-checked': {
+                                                                    color: '#E8B007',
+                                                                },
+                                                            }}
+                                                        />
+                                                    }
+                                                    label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
+                                                    className="mr-12"
+                                                />
+                                                <FormControlLabel
+                                                    value="no"
+                                                    control={
+                                                        <Radio
+                                                            sx={{
+                                                                color: '#D1D5DB',
+                                                                '&.Mui-checked': {
+                                                                    color: '#E8B007',
+                                                                },
+                                                            }}
+                                                        />
+                                                    }
+                                                    label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
+                                                />
+                                            </RadioGroup>
+                                        </Box>
+
+                                        {formData.paramedicsTreated === 'yes' && (
+                                            <Box className="space-y-8 animate-fade-in-up">
+                                                <Box>
+                                                    <label className="block text-sm font-bold text-gray-900 dark:text-white mb-3">
+                                                        Did the ambulance take you to a Hospital?
+                                                    </label>
+                                                    <RadioGroup
+                                                        row
+                                                        value={formData.ambulanceTookToHospital || ''}
+                                                        onChange={(e) => handleChange('ambulanceTookToHospital', e.target.value)}
+                                                    >
+                                                        <FormControlLabel
+                                                            value="yes"
+                                                            control={
+                                                                <Radio
+                                                                    sx={{
+                                                                        color: '#D1D5DB',
+                                                                        '&.Mui-checked': {
+                                                                            color: '#E8B007',
+                                                                        },
+                                                                    }}
+                                                                />
+                                                            }
+                                                            label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
+                                                            className="mr-12"
+                                                        />
+                                                        <FormControlLabel
+                                                            value="no"
+                                                            control={
+                                                                <Radio
+                                                                    sx={{
+                                                                        color: '#D1D5DB',
+                                                                        '&.Mui-checked': {
+                                                                            color: '#E8B007',
+                                                                        },
+                                                                    }}
+                                                                />
+                                                            }
+                                                            label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
+                                                        />
+                                                    </RadioGroup>
+                                                </Box>
+
+                                                {formData.ambulanceTookToHospital === 'no' && (
+                                                    <Box className="mb-8 animate-fade-in-up">
+                                                        <label className="block text-sm font-bold text-gray-900 dark:text-white mb-3">
+                                                            Did you present to the Hospital on your own?
+                                                        </label>
+                                                        <RadioGroup
+                                                            row
+                                                            value={formData.presentedToHospital || ''}
+                                                            onChange={(e) => handleChange('presentedToHospital', e.target.value)}
+                                                        >
+                                                            <FormControlLabel
+                                                                value="yes"
+                                                                control={
+                                                                    <Radio
+                                                                        sx={{
+                                                                            color: '#D1D5DB',
+                                                                            '&.Mui-checked': {
+                                                                                color: '#E8B007',
+                                                                            },
+                                                                        }}
+                                                                    />
+                                                                }
+                                                                label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
+                                                                className="mr-12"
+                                                            />
+                                                            <FormControlLabel
+                                                                value="no"
+                                                                control={
+                                                                    <Radio
+                                                                        sx={{
+                                                                            color: '#D1D5DB',
+                                                                            '&.Mui-checked': {
+                                                                                color: '#E8B007',
+                                                                            },
+                                                                        }}
+                                                                    />
+                                                                }
+                                                                label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
+                                                            />
+                                                        </RadioGroup>
+
+                                                        {formData.presentedToHospital === 'yes' && (
+                                                            <Box className="flex flex-col gap-4 mt-8">
+                                                                <Box className="mb-2">
+                                                                    <label className="block text-sm font-bold mb-2 text-gray-900 dark:text-white">
+                                                                        Which Doctor or Hospital did you go to?
+                                                                    </label>
+                                                                    {isLoaded && (
+                                                                        <Autocomplete
+                                                                            onLoad={onLoadAmbulanceHospital}
+                                                                            onPlaceChanged={onPlaceChangedAmbulanceHospital}
+                                                                        >
+                                                                            <input
+                                                                                type="text"
+                                                                                value={formData.ambulanceHospital || ''}
+                                                                                onChange={(e) => handleChange('ambulanceHospital', e.target.value)}
+                                                                                className="w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 text-base !text-gray-900 !bg-white border-gray-200 dark:border-gray-700 focus:border-primary-main focus:outline-none focus:ring-2 focus:ring-primary-main/20 disabled:bg-gray-100 dark:disabled:bg-gray-900 placeholder:text-gray-400"
+                                                                            />
+                                                                        </Autocomplete>
+                                                                    )}
+                                                                </Box>
+                                                                <Button
+                                                                    variant="contained"
+                                                                    disabled={!formData.ambulanceHospital}
+                                                                    onClick={() => {
+                                                                        const query = formData.ambulanceHospital ? encodeURIComponent(formData.ambulanceHospital) : 'hospitals';
+                                                                        window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
+                                                                    }}
+                                                                    sx={{
+                                                                        backgroundColor: 'white !important',
+                                                                        color: 'black !important',
+                                                                        borderRadius: '8px',
+                                                                        textTransform: 'none',
+                                                                        fontWeight: '600',
+                                                                        height: '40px',
+                                                                        width: '150px',
+                                                                        border: '1px solid #D1D5DB',
+                                                                        boxShadow: 'none',
+                                                                        '&:hover': {
+                                                                            backgroundColor: '#F3F4F6 !important',
+                                                                            borderColor: '#9CA3AF',
+                                                                        },
+                                                                        '&.Mui-disabled': {
+                                                                            backgroundColor: '#E5E7EB !important',
+                                                                            color: '#9CA3AF !important',
+                                                                            border: 'none',
+                                                                        }
+                                                                    }}
+                                                                >
+                                                                    Find Hospital
+                                                                </Button>
+                                                            </Box>
+                                                        )}
+                                                    </Box>
+                                                )}
+
+                                                {formData.ambulanceTookToHospital === 'yes' && (
+                                                    <Box className="flex flex-col gap-4">
+                                                        <Box className="mb-2">
+                                                            <label className="block text-sm font-bold mb-2 text-gray-900 dark:text-white">
+                                                                Which Hospital did the Ambulance take you to?
+                                                            </label>
+                                                            {isLoaded && (
+                                                                <Autocomplete
+                                                                    onLoad={onLoadAmbulanceHospital}
+                                                                    onPlaceChanged={onPlaceChangedAmbulanceHospital}
+                                                                >
+                                                                    <input
+                                                                        type="text"
+                                                                        value={formData.ambulanceHospital || ''}
+                                                                        onChange={(e) => handleChange('ambulanceHospital', e.target.value)}
+                                                                        className="w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 text-base !text-gray-900 !bg-white border-gray-200 dark:border-gray-700 focus:border-primary-main focus:outline-none focus:ring-2 focus:ring-primary-main/20 disabled:bg-gray-100 dark:disabled:bg-gray-900 placeholder:text-gray-400"
+                                                                    />
+                                                                </Autocomplete>
+                                                            )}
+                                                        </Box>
+                                                        <Button
+                                                            variant="contained"
+                                                            disabled={!formData.ambulanceHospital}
+                                                            onClick={() => {
+                                                                const query = formData.ambulanceHospital ? encodeURIComponent(formData.ambulanceHospital) : 'hospitals';
+                                                                window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
+                                                            }}
+                                                            sx={{
+                                                                backgroundColor: 'white !important',
+                                                                color: 'black !important',
+                                                                borderRadius: '8px',
+                                                                textTransform: 'none',
+                                                                fontWeight: '600',
+                                                                height: '40px',
+                                                                width: '150px',
+                                                                border: '1px solid #D1D5DB',
+                                                                boxShadow: 'none',
+                                                                '&:hover': {
+                                                                    backgroundColor: '#F3F4F6 !important',
+                                                                    borderColor: '#9CA3AF',
+                                                                },
+                                                                '&.Mui-disabled': {
+                                                                    backgroundColor: '#E5E7EB !important',
+                                                                    color: '#9CA3AF !important',
+                                                                    border: 'none',
+                                                                }
+                                                            }}
+                                                        >
+                                                            Find Hospital
+                                                        </Button>
+                                                    </Box>
+                                                )}
+                                            </Box>
+                                        )}
+                                    </Box>
+                                )}
+
+                            </Box>
+
+                            {/* Type of Policy Section */}
+                            <Typography variant="h2" className="font-extrabold text-black dark:text-white mb-6 md:mb-8 text-xl md:text-2xl mt-12">
+                                Type of policy
+                            </Typography>
+
+                            <Box className="max-w-4xl mx-auto mb-12 md:mb-24">
+                                <Grid container spacing={6}>
+                                    <Grid item xs={12} md={6}>
+                                        <CustomInput
+                                            label="Type of Policy"
+                                            select
+                                            value={formData.typeOfPolicy || ''}
+                                            onChange={(e: any) => handleChange('typeOfPolicy', e.target.value)}
+                                        >
+                                            <option value="Policy 1">Policy 1</option>
+                                            <option value="Policy 2">Policy 2</option>
+                                        </CustomInput>
+                                    </Grid>
+                                    <Grid item xs={12} md={6}>
+                                        <CustomInput
+                                            label="Type of Commercial Policy"
+                                            select
+                                            value={formData.typeOfCommercialPolicy || ''}
+                                            onChange={(e: any) => handleChange('typeOfCommercialPolicy', e.target.value)}
+                                        >
+                                            <option value="Commercial Policy 1">Commercial Policy 1</option>
+                                            <option value="Commercial Policy 2">Commercial Policy 2</option>
+                                        </CustomInput>
+                                    </Grid>
+                                </Grid>
+                                <Box className="mt-8">
+                                    <CustomInput
+                                        label="Explain type of Policy"
+                                        multiline
+                                        rows={4}
+                                        value={formData.typeOfPolicyNote || ''}
+                                        onChange={(e: any) => handleChange('typeOfPolicyNote', e.target.value)}
+                                    />
+                                </Box>
                             </Box>
                         </>
                     )}
 
                 </>
-            )}
+            )
+            }
 
             <Box className="max-w-4xl mx-auto">
                 <Box className="mt-12 mb-24 flex justify-between items-center">

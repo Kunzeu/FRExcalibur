@@ -59,16 +59,7 @@ export default function Step5Medical({ formData, handleChange, prevStep, handleS
             globalErrors.medicalStatus = true;
             isValid = false;
         }
-        if (!formData.micStatus) {
-            newLocalErrors.micStatus = true;
-            globalErrors.micStatus = true;
-            isValid = false;
-        }
-        if (formData.micStatus === 'yes' && !formData.micDetails?.trim()) {
-            newLocalErrors.micDetails = true;
-            globalErrors.micDetails = true;
-            isValid = false;
-        }
+
 
         setErrors(newLocalErrors);
 
@@ -213,6 +204,78 @@ export default function Step5Medical({ formData, handleChange, prevStep, handleS
                         />
                     </RadioGroup>
                     {errors.isCaseLien && <FormHelperText error>This field is required</FormHelperText>}
+
+                    {/* Clinic Referral Section - Shown if Case Lien is No */}
+                    {formData.isCaseLien === 'no' && (
+                        <Box className="mt-8 space-y-8 animate-fade-in-up">
+                            <Box className="animate-fade-in-up">
+                                <Box className="bg-transparent dark:bg-black rounded-3xl p-6 md:p-8 border border-red-500 mb-8">
+                                    <Typography className="text-red-500 text-lg font-medium leading-relaxed mb-4">
+                                        Do you know of any clinic that treats trauma?
+                                        <br />
+                                        If yes: Do you know if this clinic takes your type of case?
+                                        <br />
+                                        If yes; Do you know if they will be able to testify at the court on your behalf?
+                                        <br />
+                                        If no;
+                                        <br />
+                                        We work with a broad network of clinics that:
+                                    </Typography>
+                                    <ul className="list-disc pl-6 text-red-500 text-lg font-medium space-y-1 mb-6">
+                                        <li>Handle accidents like yours</li>
+                                        <li>Treats trauma</li>
+                                        <li>Accept these insurance plans</li>
+                                        <li>Can testify on your behalf in court if necessary</li>
+                                        <li>Have direct communication with your attorney</li>
+                                    </ul>
+                                    <Typography className="text-red-500 text-lg font-medium leading-relaxed">
+                                        Would you like us to refer you to one of our clinics?
+                                    </Typography>
+                                </Box>
+
+                                <Box>
+                                    <Button
+                                        variant="contained"
+                                        disabled={!formData.address}
+                                        onClick={() => {
+                                            // TODO: Implement clinic search logic
+                                            console.log('Searching for clinics near:', formData.address);
+                                        }}
+                                        sx={{
+                                            backgroundColor: formData.address ? '#EAB308 !important' : '#9CA3AF !important',
+                                            color: formData.address ? 'white !important' : '#000000ff !important',
+                                            borderRadius: '50px',
+                                            textTransform: 'none',
+                                            fontWeight: '700',
+                                            fontSize: '1rem',
+                                            minHeight: '48px',
+                                            width: 'auto',
+                                            minWidth: '200px',
+                                            px: 4,
+                                            py: 1.5,
+                                            mb: 2,
+                                            boxShadow: formData.address ? '0 4px 6px -1px rgba(234, 179, 8, 0.3)' : 'none',
+                                            '&:hover': {
+                                                backgroundColor: formData.address ? '#FCD34D !important' : '#9CA3AF !important',
+                                                boxShadow: formData.address ? '0 10px 15px -3px rgba(234, 179, 8, 0.4)' : 'none',
+                                            },
+                                            '&:disabled': {
+                                                backgroundColor: '#9CA3AF !important',
+                                                color: '#000000ff !important',
+                                            }
+                                        }}
+                                    >
+                                        Find Medical Offices
+                                    </Button>
+                                    {!formData.address && (
+                                        <Typography className="text-sm font-bold text-gray-900 dark:text-white animate-fade-in">
+                                            It is necessary to fill in the address field to be able to search for clinics.
+                                        </Typography> // Falta agregar la proximidad de las clinicas 
+                                    )}
+                                </Box>
+                            </Box>
+                        </Box>
+                    )}
                 </Box>
             </Box>
 
@@ -285,123 +348,7 @@ export default function Step5Medical({ formData, handleChange, prevStep, handleS
                         onChange={(e: any) => handleChange('medicalStatusNote', e.target.value)}
                     />
                 </Box>
-            </Box>
-
-            {/* Type of Policy Section */}
-            <Typography variant="h2" className="font-extrabold text-black dark:text-white mb-6 md:mb-8 text-xl md:text-2xl">
-                Type of policy
-            </Typography>
-
-            <Box className="max-w-4xl mx-auto mb-12 md:mb-24">
-                <Grid container spacing={6}>
-                    <Grid item xs={12} md={6}>
-                        <CustomInput
-                            label="Type of Policy"
-                            select
-                            value={formData.typeOfPolicy || ''}
-                            onChange={(e: any) => handleChange('typeOfPolicy', e.target.value)}
-                        >
-                            <option value="Policy 1">Policy 1</option>
-                            <option value="Policy 2">Policy 2</option>
-                        </CustomInput>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <CustomInput
-                            label="Type of Commercial Policy"
-                            select
-                            value={formData.typeOfCommercialPolicy || ''}
-                            onChange={(e: any) => handleChange('typeOfCommercialPolicy', e.target.value)}
-                        >
-                            <option value="Commercial Policy 1">Commercial Policy 1</option>
-                            <option value="Commercial Policy 2">Commercial Policy 2</option>
-                        </CustomInput>
-                    </Grid>
-                </Grid>
-                <Box className="mt-8">
-                    <CustomInput
-                        label="Explain type of Policy"
-                        multiline
-                        rows={4}
-                        value={formData.typeOfPolicyNote || ''}
-                        onChange={(e: any) => handleChange('typeOfPolicyNote', e.target.value)}
-                    />
-                </Box>
-            </Box>
-
-            {/* Mic Information Section */}
-            <Typography variant="h2" className="font-extrabold text-black dark:text-white mb-8 md:mb-12 text-xl md:text-2xl">
-                Mic information
-            </Typography>
-
-            <Box className="max-w-4xl mx-auto mb-16">
-                <Box className="mb-8">
-                    <label id="mic-status-label" className={`block text-sm font-bold mb-3 ${errors.micStatus ? 'text-red-500' : 'text-gray-900 dark:text-white'}`}>
-                        MIC? {errors.micStatus && '*'}
-                    </label>
-                    <RadioGroup
-                        aria-labelledby="mic-status-label"
-                        row
-                        value={formData.micStatus || ''}
-                        onChange={(e) => {
-                            handleChange('micStatus', e.target.value);
-                            if (errors.micStatus) setErrors({ ...errors, micStatus: false });
-                        }}
-                        aria-invalid={errors.micStatus}
-                    >
-                        <FormControlLabel
-                            value="yes"
-                            control={
-                                <Radio
-                                    inputProps={{ 'aria-label': 'Yes' }}
-                                    sx={{
-                                        color: errors.micStatus ? '#ef4444' : '#D1D5DB',
-                                        '&.Mui-checked': {
-                                            color: '#E8B007',
-                                        },
-                                    }}
-                                />
-                            }
-                            label={<span className={`text-sm font-bold ${errors.micStatus ? 'text-red-500' : 'text-gray-700 dark:text-gray-200'}`}>Yes</span>}
-                            className="mr-12"
-                        />
-                        <FormControlLabel
-                            value="no"
-                            control={
-                                <Radio
-                                    inputProps={{ 'aria-label': 'No' }}
-                                    sx={{
-                                        color: errors.micStatus ? '#ef4444' : '#D1D5DB',
-                                        '&.Mui-checked': {
-                                            color: '#E8B007',
-                                        },
-                                    }}
-                                />
-                            }
-                            label={<span className={`text-sm font-bold ${errors.micStatus ? 'text-red-500' : 'text-gray-700 dark:text-gray-200'}`}>No</span>}
-                        />
-                    </RadioGroup>
-                    {errors.micStatus && <FormHelperText error>This field is required</FormHelperText>}
-                </Box>
-
-                {formData.micStatus === 'yes' && (
-                    <Box className="mb-8">
-                        <CustomInput
-                            label="What is the MIC?"
-                            multiline
-                            rows={4}
-                            value={formData.micDetails || ''}
-                            onChange={(e: any) => {
-                                handleChange('micDetails', e.target.value);
-                                if (errors.micDetails) setErrors({ ...errors, micDetails: false });
-                            }}
-                            error={errors.micDetails}
-                            helperText={errors.micDetails ? "Please provide details about the MIC" : ""}
-                            aria-invalid={errors.micDetails}
-                        />
-                    </Box>
-                )}
-            </Box>
-
+            </Box>         
 
             {/* Navigation Buttons */}
             <Box className="max-w-4xl mx-auto">

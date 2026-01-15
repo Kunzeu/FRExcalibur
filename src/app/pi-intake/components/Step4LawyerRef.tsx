@@ -67,6 +67,50 @@ export default function Step4LawyerRef({ formData, handleChange, nextStep, prevS
                     </Typography>
                 </Box>
             </Box>
+            {/* Lawyer Assign Section */}
+            <Typography variant="h2" className="font-extrabold text-black dark:text-white mb-8 md:mb-12 text-xl md:text-2xl">
+                Lawyer Assign
+            </Typography>
+
+            <Box className="max-w-4xl mx-auto">
+                <Grid container spacing={6} className="mb-12">
+                    <Grid item xs={12} md={6}>
+                        <CustomInput
+                            label="Selected Lawyer"
+                            select
+                            value={formData.selectedLawyer || ''}
+                            onChange={(e: any) => handleChange('selectedLawyer', e.target.value)}
+                            placeholder="Select Lawyer"
+                        >
+                            <option value="Lawyer 1">Lawyer 1</option>
+                            <option value="Lawyer 2">Lawyer 2</option>
+                        </CustomInput>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <label className="block text-sm font-bold text-transparent mb-2 hidden md:block select-none">
+                            Spacer
+                        </label>
+                        <Button
+                            variant="outlined"
+                            className="w-full md:w-auto h-14 px-8 rounded-full text-lg normal-case text-gray-500 dark:text-gray-300 hover:text-[#EAB308] dark:hover:text-[#EAB308] bg-white dark:bg-gray-800 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+                            sx={{
+                                borderColor: '#EAB308 !important',
+                                borderWidth: '2px !important',
+                                '&:hover': {
+                                    borderColor: '#EAB308 !important',
+                                }
+                            }}
+                            startIcon={
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                </svg>
+                            }
+                        >
+                            Edit Email
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Box>
             <Typography id="lawyer-status-header" variant="h2" className={`font-extrabold ${validationErrors.lawyerStatus ? 'text-red-500' : 'text-black dark:text-white'} mb-8 md:mb-12 text-xl md:text-2xl`}>
                 Lawyer Status {validationErrors.lawyerStatus && '*'}
             </Typography>
@@ -148,51 +192,6 @@ export default function Step4LawyerRef({ formData, handleChange, nextStep, prevS
                         onChange={(e: any) => handleChange('legalStatusNote', e.target.value)}
                     />
                 </div>
-            </Box>
-
-            {/* Lawyer Assign Section */}
-            <Typography variant="h2" className="font-extrabold text-black dark:text-white mb-8 md:mb-12 text-xl md:text-2xl">
-                Lawyer Assign
-            </Typography>
-
-            <Box className="max-w-4xl mx-auto">
-                <Grid container spacing={6} className="mb-12">
-                    <Grid item xs={12} md={6}>
-                        <CustomInput
-                            label="Selected Lawyer"
-                            select
-                            value={formData.selectedLawyer || ''}
-                            onChange={(e: any) => handleChange('selectedLawyer', e.target.value)}
-                            placeholder="Select Lawyer"
-                        >
-                            <option value="Lawyer 1">Lawyer 1</option>
-                            <option value="Lawyer 2">Lawyer 2</option>
-                        </CustomInput>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <label className="block text-sm font-bold text-transparent mb-2 hidden md:block select-none">
-                            Spacer
-                        </label>
-                        <Button
-                            variant="outlined"
-                            className="w-full md:w-auto h-14 px-8 rounded-full text-lg normal-case text-gray-500 dark:text-gray-300 hover:text-[#EAB308] dark:hover:text-[#EAB308] bg-white dark:bg-gray-800 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
-                            sx={{
-                                borderColor: '#EAB308 !important',
-                                borderWidth: '2px !important',
-                                '&:hover': {
-                                    borderColor: '#EAB308 !important',
-                                }
-                            }}
-                            startIcon={
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                </svg>
-                            }
-                        >
-                            Edit Email
-                        </Button>
-                    </Grid>
-                </Grid>
             </Box>
 
             {/* Sign Up Section */}

@@ -242,8 +242,12 @@ export default function Step3ClientInjuryComplaints({
                                                         value="yes"
                                                         control={
                                                             <Radio
-                                                                icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                                checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                                sx={{
+                                                                    color: '#D1D5DB',
+                                                                    '&.Mui-checked': {
+                                                                        color: '#E8B007',
+                                                                    },
+                                                                }}
                                                             />
                                                         }
                                                         label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
@@ -253,8 +257,12 @@ export default function Step3ClientInjuryComplaints({
                                                         value="no"
                                                         control={
                                                             <Radio
-                                                                icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                                checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                                sx={{
+                                                                    color: '#D1D5DB',
+                                                                    '&.Mui-checked': {
+                                                                        color: '#E8B007',
+                                                                    },
+                                                                }}
                                                             />
                                                         }
                                                         label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
@@ -303,8 +311,12 @@ export default function Step3ClientInjuryComplaints({
                                                             value="yes"
                                                             control={
                                                                 <Radio
-                                                                    icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                                    checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                                    sx={{
+                                                                        color: '#D1D5DB',
+                                                                        '&.Mui-checked': {
+                                                                            color: '#E8B007',
+                                                                        },
+                                                                    }}
                                                                 />
                                                             }
                                                             label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
@@ -314,8 +326,12 @@ export default function Step3ClientInjuryComplaints({
                                                             value="no"
                                                             control={
                                                                 <Radio
-                                                                    icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                                    checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                                    sx={{
+                                                                        color: '#D1D5DB',
+                                                                        '&.Mui-checked': {
+                                                                            color: '#E8B007',
+                                                                        },
+                                                                    }}
                                                                 />
                                                             }
                                                             label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
@@ -340,8 +356,12 @@ export default function Step3ClientInjuryComplaints({
                                                             value="yes"
                                                             control={
                                                                 <Radio
-                                                                    icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                                    checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                                    sx={{
+                                                                        color: '#D1D5DB',
+                                                                        '&.Mui-checked': {
+                                                                            color: '#E8B007',
+                                                                        },
+                                                                    }}
                                                                 />
                                                             }
                                                             label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
@@ -351,8 +371,12 @@ export default function Step3ClientInjuryComplaints({
                                                             value="no"
                                                             control={
                                                                 <Radio
-                                                                    icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                                    checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                                    sx={{
+                                                                        color: '#D1D5DB',
+                                                                        '&.Mui-checked': {
+                                                                            color: '#E8B007',
+                                                                        },
+                                                                    }}
                                                                 />
                                                             }
                                                             label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
@@ -377,8 +401,12 @@ export default function Step3ClientInjuryComplaints({
                                                         value="yes"
                                                         control={
                                                             <Radio
-                                                                icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                                checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                                sx={{
+                                                                    color: '#D1D5DB',
+                                                                    '&.Mui-checked': {
+                                                                        color: '#E8B007',
+                                                                    },
+                                                                }}
                                                             />
                                                         }
                                                         label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
@@ -388,8 +416,12 @@ export default function Step3ClientInjuryComplaints({
                                                         value="no"
                                                         control={
                                                             <Radio
-                                                                icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                                checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                                sx={{
+                                                                    color: '#D1D5DB',
+                                                                    '&.Mui-checked': {
+                                                                        color: '#E8B007',
+                                                                    },
+                                                                }}
                                                             />
                                                         }
                                                         label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
@@ -442,8 +474,12 @@ export default function Step3ClientInjuryComplaints({
                                                         value="yes"
                                                         control={
                                                             <Radio
-                                                                icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                                checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                                sx={{
+                                                                    color: '#D1D5DB',
+                                                                    '&.Mui-checked': {
+                                                                        color: '#E8B007',
+                                                                    },
+                                                                }}
                                                             />
                                                         }
                                                         label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
@@ -453,8 +489,12 @@ export default function Step3ClientInjuryComplaints({
                                                         value="no"
                                                         control={
                                                             <Radio
-                                                                icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                                checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                                sx={{
+                                                                    color: '#D1D5DB',
+                                                                    '&.Mui-checked': {
+                                                                        color: '#E8B007',
+                                                                    },
+                                                                }}
                                                             />
                                                         }
                                                         label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
@@ -608,8 +648,12 @@ export default function Step3ClientInjuryComplaints({
                                                 value="yes"
                                                 control={
                                                     <Radio
-                                                        icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                        checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                        sx={{
+                                                            color: '#D1D5DB',
+                                                            '&.Mui-checked': {
+                                                                color: '#E8B007',
+                                                            },
+                                                        }}
                                                     />
                                                 }
                                                 label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
@@ -619,8 +663,12 @@ export default function Step3ClientInjuryComplaints({
                                                 value="no"
                                                 control={
                                                     <Radio
-                                                        icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                        checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                        sx={{
+                                                            color: '#D1D5DB',
+                                                            '&.Mui-checked': {
+                                                                color: '#E8B007',
+                                                            },
+                                                        }}
                                                     />
                                                 }
                                                 label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
@@ -660,8 +708,12 @@ export default function Step3ClientInjuryComplaints({
                                                 value="yes"
                                                 control={
                                                     <Radio
-                                                        icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                        checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                        sx={{
+                                                            color: '#D1D5DB',
+                                                            '&.Mui-checked': {
+                                                                color: '#E8B007',
+                                                            },
+                                                        }}
                                                     />
                                                 }
                                                 label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
@@ -671,8 +723,12 @@ export default function Step3ClientInjuryComplaints({
                                                 value="no"
                                                 control={
                                                     <Radio
-                                                        icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                        checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                        sx={{
+                                                            color: '#D1D5DB',
+                                                            '&.Mui-checked': {
+                                                                color: '#E8B007',
+                                                            },
+                                                        }}
                                                     />
                                                 }
                                                 label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
@@ -722,8 +778,12 @@ export default function Step3ClientInjuryComplaints({
                                                         value="yes"
                                                         control={
                                                             <Radio
-                                                                icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                                checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                                sx={{
+                                                                    color: '#D1D5DB',
+                                                                    '&.Mui-checked': {
+                                                                        color: '#E8B007',
+                                                                    },
+                                                                }}
                                                             />
                                                         }
                                                         label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
@@ -733,8 +793,12 @@ export default function Step3ClientInjuryComplaints({
                                                         value="no"
                                                         control={
                                                             <Radio
-                                                                icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                                checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                                sx={{
+                                                                    color: '#D1D5DB',
+                                                                    '&.Mui-checked': {
+                                                                        color: '#E8B007',
+                                                                    },
+                                                                }}
                                                             />
                                                         }
                                                         label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
@@ -793,8 +857,12 @@ export default function Step3ClientInjuryComplaints({
                                                             value="yes"
                                                             control={
                                                                 <Radio
-                                                                    icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                                    checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                                    sx={{
+                                                                        color: '#D1D5DB',
+                                                                        '&.Mui-checked': {
+                                                                            color: '#E8B007',
+                                                                        },
+                                                                    }}
                                                                 />
                                                             }
                                                             label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
@@ -804,8 +872,12 @@ export default function Step3ClientInjuryComplaints({
                                                             value="no"
                                                             control={
                                                                 <Radio
-                                                                    icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                                    checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                                    sx={{
+                                                                        color: '#D1D5DB',
+                                                                        '&.Mui-checked': {
+                                                                            color: '#E8B007',
+                                                                        },
+                                                                    }}
                                                                 />
                                                             }
                                                             label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
@@ -914,8 +986,12 @@ export default function Step3ClientInjuryComplaints({
                                             value="yes"
                                             control={
                                                 <Radio
-                                                    icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                    checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                    sx={{
+                                                        color: '#D1D5DB',
+                                                        '&.Mui-checked': {
+                                                            color: '#E8B007',
+                                                        },
+                                                    }}
                                                 />
                                             }
                                             label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
@@ -925,8 +1001,12 @@ export default function Step3ClientInjuryComplaints({
                                             value="no"
                                             control={
                                                 <Radio
-                                                    icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                    checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                    sx={{
+                                                        color: '#D1D5DB',
+                                                        '&.Mui-checked': {
+                                                            color: '#E8B007',
+                                                        },
+                                                    }}
                                                 />
                                             }
                                             label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
@@ -935,7 +1015,7 @@ export default function Step3ClientInjuryComplaints({
                                 </Grid>
 
                                 <Grid item xs={12}>
-                                    <Box className="flex-grow">
+                                    <Box className="flex-grow mb-2">
                                         {isLoaded ? (
                                             <Autocomplete
                                                 onLoad={onLoadHomeAddress}
@@ -959,7 +1039,7 @@ export default function Step3ClientInjuryComplaints({
                                     </Box>
 
                                     {formData.address && (
-                                        <Box className="mt-3 flex justify-end">
+                                        <Box className="mb-4 flex justify-end">
                                             <Button
                                                 variant="contained"
                                                 onClick={openHomeAddressGoogleMaps}
@@ -1005,6 +1085,14 @@ export default function Step3ClientInjuryComplaints({
                                             </Button>
                                         </Box>
                                     )}
+
+                                    <Box className="w-1/2">
+                                        <CustomInput
+                                            label="# Apto"
+                                            value={formData.addressUnit || ''}
+                                            onChange={(e: any) => handleChange('addressUnit', e.target.value)}
+                                        />
+                                    </Box>
                                 </Grid>
                             </Grid>
 
@@ -1029,8 +1117,12 @@ export default function Step3ClientInjuryComplaints({
                                                 value="yes"
                                                 control={
                                                     <Radio
-                                                        icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                        checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                        sx={{
+                                                            color: '#D1D5DB',
+                                                            '&.Mui-checked': {
+                                                                color: '#E8B007',
+                                                            },
+                                                        }}
                                                     />
                                                 }
                                                 label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
@@ -1040,8 +1132,12 @@ export default function Step3ClientInjuryComplaints({
                                                 value="no"
                                                 control={
                                                     <Radio
-                                                        icon={<div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
-                                                        checkedIcon={<div className="w-5 h-5 rounded-full border-2 border-[#EAB308] bg-[#EAB308]" />}
+                                                        sx={{
+                                                            color: '#D1D5DB',
+                                                            '&.Mui-checked': {
+                                                                color: '#E8B007',
+                                                            },
+                                                        }}
                                                     />
                                                 }
                                                 label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
@@ -1229,6 +1325,108 @@ export default function Step3ClientInjuryComplaints({
                                     </option>
                                 ))}
                             </CustomInput>
+                        </Box>
+
+                        {/* Mic Information Section */}
+                        <Typography variant="h2" className="font-extrabold text-black dark:text-white mb-8 md:mb-12 text-xl md:text-2xl">
+                            Mic information
+                        </Typography>
+
+                        <Box className="max-w-4xl mx-auto mb-16">
+                            <Box className="mb-8">
+                                <label id="mic-status-label-step3" className="block text-sm font-bold mb-3 text-gray-900 dark:text-white">
+                                    MIC?
+                                </label>
+                                <RadioGroup
+                                    aria-labelledby="mic-status-label-step3"
+                                    row
+                                    value={formData.micStatus || ''}
+                                    onChange={(e) => handleChange('micStatus', e.target.value)}
+                                >
+                                    <FormControlLabel
+                                        value="yes"
+                                        control={
+                                            <Radio
+                                                sx={{
+                                                    color: '#D1D5DB',
+                                                    '&.Mui-checked': {
+                                                        color: '#E8B007',
+                                                    },
+                                                }}
+                                            />
+                                        }
+                                        label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">Yes</span>}
+                                        className="mr-12"
+                                    />
+                                    <FormControlLabel
+                                        value="no"
+                                        control={
+                                            <Radio
+                                                sx={{
+                                                    color: '#D1D5DB',
+                                                    '&.Mui-checked': {
+                                                        color: '#E8B007',
+                                                    },
+                                                }}
+                                            />
+                                        }
+                                        label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
+                                    />
+                                </RadioGroup>
+                            </Box>
+
+                            {/* Serious Injury Indicators - Added before Mic Info */}
+                            {formData.micStatus === 'yes' && (
+                                <Box className="max-w-4xl mx-auto mb-12">
+                                    <label className="block text-sm font-bold mb-4 text-gray-900 dark:text-white">
+                                        Serious Injury Indicators
+                                    </label>
+                                    <Grid container spacing={2}>
+                                        {[
+                                            { label: 'Hospitalization', key: 'admittedToHospital' },
+                                            { label: 'Fracture', key: 'fracturedBone' },
+                                            { label: 'Surgery', key: 'surgery' },
+                                            { label: 'Has died', key: 'hasDied' },
+                                        ].map((option) => (
+                                            <Grid item xs={12} sm={3} key={option.key}>
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            checked={!!(formData as any)[option.key]}
+                                                            onChange={(e) => handleChange(option.key as any, e.target.checked)}
+                                                            icon={
+                                                                <div className="w-5 h-5 border-[3px] border-[#EAB308] rounded-none bg-transparent" />
+                                                            }
+                                                            checkedIcon={
+                                                                <div className="w-5 h-5 bg-[#EAB308] border-[3px] border-[#EAB308] rounded-none flex items-center justify-center">
+                                                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M2 6L4.5 8.5L9.5 3.5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                                    </svg>
+                                                                </div>
+                                                            }
+                                                            sx={{ padding: 0.5 }}
+                                                        />
+                                                    }
+                                                    label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">{option.label}</span>}
+                                                    className="m-0"
+                                                />
+                                            </Grid>
+                                        ))}
+                                    </Grid>
+                                </Box>
+                            )}
+
+                            {formData.micStatus === 'yes' && (
+                                <Box className="mb-8">
+                                    <CustomInput
+                                        label="What is the MIC?"
+                                        multiline
+                                        rows={4}
+                                        value={formData.micDetails || ''}
+                                        onChange={(e: any) => handleChange('micDetails', e.target.value)}
+                                    />
+                                </Box>
+                            )}
                         </Box>
 
                         <Box className="max-w-4xl mx-auto">

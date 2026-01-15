@@ -22,6 +22,7 @@ import Step4LawyerRef from './components/Step4LawyerRef';
 import Step5Medical from './components/Step5Medical';
 import { PersonNavigation } from './components/PersonNavigation';
 import { validateStep1, validateStep2 } from '@/lib/utils/pi-intake-validation';
+import IntakeListTab from './components/IntakeListTab';
 
 // Top Nav Tabs
 const NAV_TABS = ['PI Intake Form', 'Intake List', 'Dashboard'];
@@ -148,9 +149,24 @@ export default function PIIntakePage() {
                 </Box>
             </Box>
 
-            <Container maxWidth="lg" className="flex-2 pt-12 pb-18">
-                {/* Client Searcher */}
-                {currentStep === 1 && (
+            <Container 
+                maxWidth={activeTab === 1 ? false : "lg"} 
+                className="flex-2 pt-12 pb-18"
+                sx={activeTab === 1 ? { 
+                    maxWidth: '100%',
+                    paddingX: { xs: 2, sm: 3, md: 4, lg: 6, xl: 8 }
+                } : {}}
+            >
+                {/* Intake List Tab Content */}
+                {activeTab === 1 && (
+                    <IntakeListTab />
+                )}
+
+                {/* PI Intake Form Tab Content */}
+                {activeTab === 0 && (
+                    <>
+                        {/* Client Searcher */}
+                        {currentStep === 1 && (
                     <Box className="flex flex-col md:flex-row gap-6 justify-start mb-12">
                         <Box className="relative w-full max-w-xl">
                             <input
@@ -330,6 +346,8 @@ export default function PIIntakePage() {
                         goToStep={setCurrentStep}
                         setValidationErrors={setValidationErrors}
                     />
+                )}
+                    </>
                 )}
 
             </Container >

@@ -7,6 +7,7 @@ export interface PIIntakeFormData {
     phone: string;
     email: string;
     address: string;
+    addressUnit: string; // Apt, Suite, Unit
     city: string;
     state: string;
     zipCode: string;
@@ -109,6 +110,11 @@ export interface PIIntakeFormData {
     policeCalled: string;
     policeArrivedAtScene: string;
     ambulanceCalled: string;
+    ambulanceArrivedAtScene: string;
+    paramedicsTreated: string;
+    ambulanceTookToHospital: string;
+    ambulanceHospital: string;
+    presentedToHospital: string;
 
     // Step 4: Personal Information
     preferredLanguage: string;
@@ -159,6 +165,7 @@ export interface PIIntakeFormData {
     leftLegPainRadiating?: boolean;
     leftKneePain?: boolean;
     fracturedBone?: boolean;
+    hasDied?: boolean;
 
     // Follow-ups
     fractureBonesDetails?: string;
@@ -206,6 +213,7 @@ export interface PersonIntakeInfo {
     leftLegPainRadiating?: boolean;
     leftKneePain?: boolean;
     fracturedBone?: boolean;
+    hasDied?: boolean;
 
     // Follow-ups
     fractureBonesDetails?: string;
@@ -250,6 +258,11 @@ export interface PersonIntakeInfo {
     turnedToHospital?: string; // 'yes' | 'no'
     hospitalName?: string;
     ambulanceUsed?: string;
+    ambulanceArrivedAtScene?: string;
+    paramedicsTreated?: string;
+    ambulanceTookToHospital?: string;
+    ambulanceHospital?: string;
+    presentedToHospital?: string;
 }
 
 export interface PIIntakeValidationErrors {
@@ -298,6 +311,11 @@ export const initialPIIntakeFormData: PIIntakeFormData = {
     policeCalled: '',
     policeArrivedAtScene: '',
     ambulanceCalled: '',
+    ambulanceArrivedAtScene: '',
+    paramedicsTreated: '',
+    ambulanceTookToHospital: '',
+    ambulanceHospital: '',
+    presentedToHospital: '',
 
     firstName: '',
     lastName: '',
@@ -306,6 +324,7 @@ export const initialPIIntakeFormData: PIIntakeFormData = {
     phone: '',
     email: '',
     address: '',
+    addressUnit: '',
     city: '',
     state: '',
     zipCode: '',
@@ -367,6 +386,7 @@ export const initialPIIntakeFormData: PIIntakeFormData = {
     leftLegPainRadiating: false,
     leftKneePain: false,
     fracturedBone: false,
+    hasDied: false,
 
     // Follow-ups
     fractureBonesDetails: '',
