@@ -755,9 +755,9 @@ export default function Step2AccidentInfo({
 
                     </Box>
 
-                    {/* Police & Ambulance Information - Only for Workplace Accident */}
+                    {/* Police & Ambulance Information - For Workplace OR Auto Accident */}
 
-                    {formData.accidentAtWork === 'yes' && (
+                    {(formData.accidentAtWork === 'yes' || formData.involvedInAutoAccident === 'yes') && (
                         <>
                             <Typography variant="h2" className="font-extrabold text-black dark:text-white mb-8 text-2xl">
                                 Police information
