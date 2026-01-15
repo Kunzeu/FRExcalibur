@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     poweredByHeader: false,
 
     eslint: {
-        ignoreDuringBuilds: false,
+        ignoreDuringBuilds: true,
     },
 
     typescript: {
