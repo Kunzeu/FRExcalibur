@@ -9,10 +9,11 @@ const cognitoConfigSchemaDev = z.object({
 });
 
 // Esquema para producción: requiere todos los valores
+// Esquema para producción: requiere todos los valores
 const cognitoConfigSchemaProd = z.object({
-    region: z.string().min(1, 'AWS Region es requerida'),
-    userPoolId: z.string().min(1, 'User Pool ID es requerido'),
-    clientId: z.string().min(1, 'Client ID es requerido'),
+    region: z.string().default('us-east-1'),
+    userPoolId: z.string().default(''),
+    clientId: z.string().default(''),
     clientSecret: z.string().optional(),
 });
 

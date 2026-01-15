@@ -221,18 +221,17 @@ export default function Step2AccidentInfo({
                         </Grid>
                     )}
 
-                    {/* Question 3: Malpractice - Shown ONLY if Auto Accident is 'no' AND Work Accident is 'no' */}
-
+                    {/* Question 3: Slip or Fall - Shown ONLY if Auto Accident is 'no' AND Work Accident is 'no' */}
                     {formData.involvedInAutoAccident === 'no' && formData.accidentAtWork === 'no' && (
                         <Grid item xs={12}>
-                            <label id="malpractice-label" className="block text-sm font-bold text-gray-900 dark:text-white mb-3">
-                                Were you Affected by possible Malpractice?
+                            <label id="slip-fall-label" className="block text-sm font-bold text-gray-900 dark:text-white mb-3">
+                                Did you get Injured by a Slip or Fall Accident?
                             </label>
                             <RadioGroup
-                                aria-labelledby="malpractice-label"
+                                aria-labelledby="slip-fall-label"
                                 row
-                                value={formData.affectedByMalpractice || ''}
-                                onChange={(e) => handleChange('affectedByMalpractice', e.target.value)}
+                                value={formData.injuredBySlipFall || ''}
+                                onChange={(e) => handleChange('injuredBySlipFall', e.target.value)}
                             >
                                 <FormControlLabel
                                     value="yes"
@@ -279,17 +278,17 @@ export default function Step2AccidentInfo({
                         </Grid>
                     )}
 
-                    {/* Question 2: Slip or Fall - Shown ONLY if Malpractice is 'no' */}
-                    {formData.involvedInAutoAccident === 'no' && formData.accidentAtWork === 'no' && formData.affectedByMalpractice === 'no' && (
+                    {/* Question 4: Malpractice - Shown ONLY if Slip or Fall is 'no' */}
+                    {formData.involvedInAutoAccident === 'no' && formData.accidentAtWork === 'no' && formData.injuredBySlipFall === 'no' && (
                         <Grid item xs={12}>
-                            <label id="slip-fall-label" className="block text-sm font-bold text-gray-900 dark:text-white mb-3">
-                                Did you get Injured by a Slip or Fall Accident?
+                            <label id="malpractice-label" className="block text-sm font-bold text-gray-900 dark:text-white mb-3">
+                                Were you Affected by possible Malpractice?
                             </label>
                             <RadioGroup
-                                aria-labelledby="slip-fall-label"
+                                aria-labelledby="malpractice-label"
                                 row
-                                value={formData.injuredBySlipFall || ''}
-                                onChange={(e) => handleChange('injuredBySlipFall', e.target.value)}
+                                value={formData.affectedByMalpractice || ''}
+                                onChange={(e) => handleChange('affectedByMalpractice', e.target.value)}
                             >
                                 <FormControlLabel
                                     value="yes"
