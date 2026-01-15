@@ -51,7 +51,7 @@ const STATUS_COLUMNS = [
     ]
 ];
 
-export default function Step4LawyerRef({ formData, handleChange, nextStep, prevStep, handleSave, validationErrors }: Step4LawyerRefProps) {
+export default function Step4LawyerRef({ formData, handleChange, nextStep, prevStep, handleSave: _handleSave, validationErrors }: Step4LawyerRefProps) {
     const { mode } = useTheme();
     const isDark = mode === 'dark';
 

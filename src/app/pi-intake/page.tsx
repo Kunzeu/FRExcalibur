@@ -199,7 +199,7 @@ export default function PIIntakePage() {
                         {STEPS.map((step, index) => {
                             const isActive = step.number === currentStep;
                             const isCompleted = step.number < currentStep;
-                            const isFirst = index === 0;
+                            const _isFirst = index === 0;
                             const isLast = index === STEPS.length - 1;
 
                             return (
@@ -305,7 +305,9 @@ export default function PIIntakePage() {
                             setStep3ShowSource(true);
                             prevStep();
                         }}
-                        handleSave={() => console.log('Proceed to Medical', formData)}
+                        handleSave={() => {
+                            // Proceed to Medical step
+                        }}
                         validationErrors={validationErrors}
                     />
                 )}
@@ -316,7 +318,6 @@ export default function PIIntakePage() {
                         handleChange={handleChange}
                         prevStep={prevStep}
                         handleSave={() => {
-                            console.log('Final Save', formData);
                             // Here you would typically make an API call to save the data
                             // api.save(formData).then(() => { ... })
 

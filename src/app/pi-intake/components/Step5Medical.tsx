@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Typography, Grid, FormControlLabel, RadioGroup, Radio, Button, FormHelperText, Dialog, DialogTitle, DialogContent, DialogActions, Tooltip } from '@mui/material';
+import { Box, Typography, Grid, FormControlLabel, RadioGroup, Radio, Button, FormHelperText, Dialog, Tooltip } from '@mui/material';
 import { CustomInput } from '@/components/forms/CustomInput';
 import { PIIntakeFormData, PIIntakeValidationErrors } from '@/lib/types/pi-intake';
 import { Warning } from '@mui/icons-material';
@@ -47,7 +47,6 @@ export default function Step5Medical({ formData, handleChange, prevStep, handleS
         const newLocalErrors: { [key: string]: boolean } = {};
         const globalErrors: PIIntakeValidationErrors = {};
         let isValid = true;
-        let hasGlobalErrors = false;
 
         // --- Step 5 (Current Step) Validation ---
         if (!formData.isCaseLien) {
@@ -84,35 +83,35 @@ export default function Step5Medical({ formData, handleChange, prevStep, handleS
 
         // Step 1: Lead Information
         const step1Missing: string[] = [];
-        if (!formData.callSource) { step1Missing.push('Call Source'); globalErrors.callSource = true; hasGlobalErrors = true; }
-        if (!formData.firstName) { step1Missing.push('Lead First Name'); globalErrors.firstName = true; hasGlobalErrors = true; }
-        if (!formData.lastName) { step1Missing.push('Lead Last Name'); globalErrors.lastName = true; hasGlobalErrors = true; }
-        if (!formData.phoneNumber) { step1Missing.push('Phone Number'); globalErrors.phoneNumber = true; hasGlobalErrors = true; }
-        if (formData.onBehalfOf.length === 0) { step1Missing.push('On Behalf Of'); globalErrors.onBehalfOf = true; hasGlobalErrors = true; }
+        if (!formData.callSource) { step1Missing.push('Call Source'); globalErrors.callSource = true; }
+        if (!formData.firstName) { step1Missing.push('Lead First Name'); globalErrors.firstName = true; }
+        if (!formData.lastName) { step1Missing.push('Lead Last Name'); globalErrors.lastName = true; }
+        if (!formData.phoneNumber) { step1Missing.push('Phone Number'); globalErrors.phoneNumber = true; }
+        if (formData.onBehalfOf.length === 0) { step1Missing.push('On Behalf Of'); globalErrors.onBehalfOf = true; }
 
         // Client Info if applicable
         const needsClientInfo = formData.onBehalfOf.some((r: string) => ['Legal Spouse', 'Son/Daughter', 'Son/Daughter(Minor)', 'Parent', 'Sibling', 'Friend', 'Other'].includes(r));
         if (needsClientInfo) {
-            if (!formData.clientFirstName) { step1Missing.push('Client First Name'); globalErrors.clientFirstName = true; hasGlobalErrors = true; }
-            if (!formData.clientLastName) { step1Missing.push('Client Last Name'); globalErrors.clientLastName = true; hasGlobalErrors = true; }
-            if (!formData.clientPhone) { step1Missing.push('Client Phone Number'); globalErrors.clientPhone = true; hasGlobalErrors = true; }
+            if (!formData.clientFirstName) { step1Missing.push('Client First Name'); globalErrors.clientFirstName = true; }
+            if (!formData.clientLastName) { step1Missing.push('Client Last Name'); globalErrors.clientLastName = true; }
+            if (!formData.clientPhone) { step1Missing.push('Client Phone Number'); globalErrors.clientPhone = true; }
         }
 
         // Step 2: Accident Information
         const step2Missing: string[] = [];
-        if (!formData.involvedInAutoAccident) { step2Missing.push('Type of Accident Selection'); globalErrors.involvedInAutoAccident = true; hasGlobalErrors = true; }
+        if (!formData.involvedInAutoAccident) { step2Missing.push('Type of Accident Selection'); globalErrors.involvedInAutoAccident = true; }
 
         // Additional Persons Logic
         const numPersons = parseInt(formData.numberOfPersonsInAccident || '1');
-        if (numPersons >= 2 && (!formData.person2FirstName || !formData.person2LastName)) { step2Missing.push('Person 2 Details'); globalErrors.person2FirstName = true; hasGlobalErrors = true; }
-        if (numPersons >= 3 && (!formData.person3FirstName || !formData.person3LastName)) { step2Missing.push('Person 3 Details'); globalErrors.person3FirstName = true; hasGlobalErrors = true; }
-        if (numPersons >= 4 && (!formData.person4FirstName || !formData.person4LastName)) { step2Missing.push('Person 4 Details'); globalErrors.person4FirstName = true; hasGlobalErrors = true; }
-        if (numPersons >= 5 && (!formData.person5FirstName || !formData.person5LastName)) { step2Missing.push('Person 5 Details'); globalErrors.person5FirstName = true; hasGlobalErrors = true; }
-        if (numPersons >= 6 && (!formData.person6FirstName || !formData.person6LastName)) { step2Missing.push('Person 6 Details'); globalErrors.person6FirstName = true; hasGlobalErrors = true; }
+        if (numPersons >= 2 && (!formData.person2FirstName || !formData.person2LastName)) { step2Missing.push('Person 2 Details'); globalErrors.person2FirstName = true; }
+        if (numPersons >= 3 && (!formData.person3FirstName || !formData.person3LastName)) { step2Missing.push('Person 3 Details'); globalErrors.person3FirstName = true; }
+        if (numPersons >= 4 && (!formData.person4FirstName || !formData.person4LastName)) { step2Missing.push('Person 4 Details'); globalErrors.person4FirstName = true; }
+        if (numPersons >= 5 && (!formData.person5FirstName || !formData.person5LastName)) { step2Missing.push('Person 5 Details'); globalErrors.person5FirstName = true; }
+        if (numPersons >= 6 && (!formData.person6FirstName || !formData.person6LastName)) { step2Missing.push('Person 6 Details'); globalErrors.person6FirstName = true; }
 
         // Step 4: Lawyer
         const step4Missing: string[] = [];
-        if (!formData.lawyerStatus) { step4Missing.push('Lawyer Status'); globalErrors.lawyerStatus = true; hasGlobalErrors = true; }
+        if (!formData.lawyerStatus) { step4Missing.push('Lawyer Status'); globalErrors.lawyerStatus = true; }
 
         // Update Global Validation Errors
         setValidationErrors(globalErrors);
