@@ -252,7 +252,7 @@ export default function PIIntakePage() {
                     }}
                 />
 
-                {/* Step 1 Content: Lead Information */}
+                {/* Step 1 Content: Lead Isnformation */}
                 {currentStep === 1 && (
                     <Step1LeadInfo
                         formData={formData}
