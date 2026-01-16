@@ -14,12 +14,17 @@ import {
     Email as EmailIcon,
     LightMode as LightModeIcon,
     DarkMode as DarkModeIcon,
+    Menu as MenuIcon,
 } from '@mui/icons-material';
 import Image from 'next/image';
 import { useState, useCallback } from 'react';
 import { useTheme } from '@/lib/contexts/theme-context';
 
-export default function Header() {
+interface HeaderProps {
+    onSidebarOpen?: () => void;
+}
+
+export default function Header({ onSidebarOpen }: HeaderProps) {
     const { data: session } = useSession();
     const userName = session?.user?.name || '';
     const [showMobileSearch, setShowMobileSearch] = useState(false);
@@ -57,6 +62,17 @@ export default function Header() {
                 {/* MOBILE HEADER: Logo + Icons */}
                 <Box className="flex items-center justify-between w-full lg:hidden">
                     <Box className="flex items-center gap-3">
+                        {/* Hamburger Menu */}
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            onClick={onSidebarOpen}
+                            sx={{ mr: 1, display: { lg: 'none' } }}
+                        >
+                            <MenuIcon className="text-gray-700 dark:text-gray-200" />
+                        </IconButton>
+
                         <Box className="bg-black px-3 py-1.5 rounded">
                             <Typography variant="h6" className="font-bold text-white leading-none tracking-widest text-sm">
                                 EXCALIBUR

@@ -26,6 +26,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@/lib/contexts/theme-context';
 import { intakeService } from '@/lib/services/intake.service';
+import { userService } from '@/lib/services/user.service';
 import type { IntakeResponse, UserResponse } from '@/lib/types/intake-api';
 
 // Tipo para los datos de la tabla
@@ -236,23 +237,44 @@ export default function IntakeListTab({ onEdit }: IntakeListTabProps) {
                 setTotalPages(response.totalPages);
                 setTotalElements(response.totalElements);
 
-                // Mapear los datos de la API a los campos de la tabla
-                const mappedData = await Promise.all(
-                    response.content.map(async (intake: IntakeResponse) => {
-                        // Obtener información del screener si no está en caché
+                // Optimización: Obtener todos los createdBy únicos y cargar usuarios en paralelo
+                const uniqueUserIds = new Set<string>();
+                response.content.forEach((intake: IntakeResponse) => {
+                    if (intake.createdBy && !screenerCache[intake.createdBy]) {
+                        uniqueUserIds.add(intake.createdBy);
+                    }
+                });
+
+                // Cargar todos los usuarios únicos en paralelo
+                const userPromises = Array.from(uniqueUserIds).map(async (userId) => {
+                    try {
+                        const user = await userService.getUserById(userId);
+                        return { userId, user };
+                    } catch (err) {
+                        console.warn(`Error loading user ${userId}:`, err);
+                        return { userId, user: null };
+                    }
+                });
+
+                const userResults = await Promise.all(userPromises);
+                
+                // Actualizar caché con todos los usuarios cargados
+                const newCache = { ...screenerCache };
+                userResults.forEach(({ userId, user }) => {
+                    if (user) {
+                        newCache[userId] = user;
+                    }
+                });
+                setScreenerCache(newCache);
+
+                // Mapear los datos de la API a los campos de la tabla (sin llamadas async adicionales)
+                const mappedData = response.content.map((intake: IntakeResponse) => {
+                        // Obtener información del screener desde caché
                         let screenerName = '-';
                         if (intake.createdBy) {
-                            if (screenerCache[intake.createdBy]) {
-                                const user = screenerCache[intake.createdBy];
-                                screenerName = user.fullName || `${user.firstName || ''} ${user.lastName || ''}`.trim() || '-';
-                            } else {
-                                try {
-                                    const user = await intakeService.getUserById(intake.createdBy);
-                                    setScreenerCache(prev => ({ ...prev, [intake.createdBy]: user }));
-                                    screenerName = user.fullName || `${user.firstName || ''} ${user.lastName || ''}`.trim() || '-';
-                                } catch (err) {
-                                    console.warn('Error loading screener info:', err);
-                                }
+                            const cachedUser = newCache[intake.createdBy];
+                            if (cachedUser) {
+                                screenerName = cachedUser.fullName || `${cachedUser.firstName || ''} ${cachedUser.lastName || ''}`.trim() || '-';
                             }
                         }
 
@@ -314,8 +336,7 @@ export default function IntakeListTab({ onEdit }: IntakeListTabProps) {
                             dateLawyerAssigned: '-', // No disponible en la API actual
                             historyLegalStatusNotes: 'See all'
                         } as IntakeTableRow;
-                    })
-                );
+                    });
 
                 setIntakeData(mappedData);
             } catch (err: any) {

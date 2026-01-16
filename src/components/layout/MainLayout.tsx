@@ -1,26 +1,38 @@
 'use client';
 
+import { useState } from 'react';
 import { Box } from '@mui/material';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
+
+import Sidebar from './Sidebar';
 
 interface MainLayoutProps {
     children: React.ReactNode;
 }
 
 export default function MainLayout({ children }: MainLayoutProps) {
+    const [mobileOpen, setMobileOpen] = useState(false);
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
+
     return (
         <Box
             className="flex min-h-screen bg-gray-50 dark:bg-black"
             sx={{
                 width: '100vw',
                 maxWidth: '100%',
-                flexDirection: 'column',
+                flexDirection: { xs: 'column', lg: 'row' }, // Column on mobile, Row on desktop
             }}
         >
+            {/* Sidebar - Handles both mobile drawer and desktop persistent sidebar */}
+            <Sidebar mobileOpen={mobileOpen} onClose={handleDrawerToggle} />
+
             {/* Main Content Wrapper */}
             <Box className="flex-1 flex flex-col min-w-0 transition-all duration-300">
-                <Header />
+                <Header onSidebarOpen={handleDrawerToggle} />
 
                 <Box
                     component="main"
