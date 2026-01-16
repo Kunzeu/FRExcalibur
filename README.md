@@ -21,12 +21,24 @@ npm install
 
 ### 2. Configurar variables de entorno
 
+Copia `.env.example` a `.env.local` y completa las variables:
+
 ```env
 # AWS Cognito (completar cuando esté configurado)
 NEXT_PUBLIC_AWS_REGION=us-east-1
 NEXT_PUBLIC_COGNITO_USER_POOL_ID=tu-user-pool-id
 NEXT_PUBLIC_COGNITO_CLIENT_ID=tu-client-id
 COGNITO_CLIENT_SECRET=tu-client-secret
+
+# API Configuration
+# URL de la API v2 - Si está en un servidor diferente, usa la URL completa
+NEXT_PUBLIC_API_V2_URL=http://localhost:8080/api/v2
+
+# App Configuration
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# NextAuth Secret
+NEXTAUTH_SECRET=tu-secret-key-aqui
 
 
 ### 3. Ejecutar el proyecto
@@ -51,12 +63,21 @@ app/
 
 lib/
 ├── config.ts          # Configuración de Cognito y cookies
-├── services/          # Lógica de negocio
-│   ├── cognito.service.ts      # Comunicación con AWS
+├── services/          # Servicios de API
+│   ├── auth.service.ts         # Servicio de autenticación (API v2)
+│   ├── user.service.ts         # Servicio de usuarios (API v2)
+│   ├── intake.service.ts      # Servicio de intakes (API v2)
+│   ├── cognito.service.ts     # Comunicación con AWS Cognito
 │   └── server-auth.service.ts  # Manejo de sesiones
+├── hooks/             # Hooks personalizados de React
+│   ├── useAuth.ts     # Hook para autenticación
+│   ├── useIntakes.ts  # Hook para intakes
+│   └── useUsers.ts    # Hook para usuarios
 ├── types/             # Tipos TypeScript
+│   └── intake-api.ts  # Tipos de la API v2
 ├── utils/             # Utilidades (cookies, etc)
 └── validations/       # Validación de formularios
+    └── intake-api.schema.ts  # Validaciones Zod para API v2
 
 middleware.ts          # Protección de rutas
 ```

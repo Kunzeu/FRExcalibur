@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Box,
     Typography,
@@ -13,15 +13,47 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Paper
+    Paper,
+    CircularProgress,
+    Pagination,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    IconButton,
+    Divider
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@/lib/contexts/theme-context';
+import { intakeService } from '@/lib/services/intake.service';
+import type { IntakeResponse, UserResponse } from '@/lib/types/intake-api';
+
+// Tipo para los datos de la tabla
+interface IntakeTableRow {
+    id: string;
+    mainLeadName: string;
+    mainLeadLastName: string;
+    mainLeadPhone: string;
+    code: string;
+    dateTimeIntake: string;
+    screener: string;
+    callSource: string;
+    clientFirstName: string;
+    clientLastName: string;
+    clientPhone: string;
+    typeOfAccident: string;
+    accidentState: string;
+    accidentDate: string;
+    handlingLawyer: string;
+    legalStatus: string;
+    dateLawyerAssigned: string;
+    historyLegalStatusNotes: string;
+}
 
 // Mock data - En producción esto vendría de una API
-const mockIntakeData = [
+const mockIntakeData: IntakeTableRow[] = [
     {
-        id: 1,
+        id: '1',
         mainLeadName: 'Eduardo',
         mainLeadLastName: 'Flores',
         mainLeadPhone: '(631) 215-7260',
@@ -41,7 +73,7 @@ const mockIntakeData = [
         historyLegalStatusNotes: 'See all'
     },
     {
-        id: 2,
+        id: '2',
         mainLeadName: 'Eduardo',
         mainLeadLastName: 'Flores',
         mainLeadPhone: '(631) 215-7260',
@@ -61,7 +93,7 @@ const mockIntakeData = [
         historyLegalStatusNotes: 'See all'
     },
     {
-        id: 3,
+        id: '3',
         mainLeadName: 'Eduardo',
         mainLeadLastName: 'Flores',
         mainLeadPhone: '(631) 215-7260',
@@ -81,7 +113,7 @@ const mockIntakeData = [
         historyLegalStatusNotes: 'See all'
     },
     {
-        id: 4,
+        id: '4',
         mainLeadName: 'Eduardo',
         mainLeadLastName: 'Flores',
         mainLeadPhone: '(631) 215-7260',
@@ -101,7 +133,7 @@ const mockIntakeData = [
         historyLegalStatusNotes: 'See all'
     },
     {
-        id: 5,
+        id: '5',
         mainLeadName: 'Eduardo',
         mainLeadLastName: 'Flores',
         mainLeadPhone: '(631) 215-7260',
@@ -119,9 +151,9 @@ const mockIntakeData = [
         legalStatus: 'Pending Full Intake',
         dateLawyerAssigned: '01/15/2026, 12:05:10 PM',
         historyLegalStatusNotes: 'See all'
-    },  
+    },
     {
-        id: 6,
+        id: '6',
         mainLeadName: 'Eduardo',
         mainLeadLastName: 'Flores',
         mainLeadPhone: '(631) 215-7260',
@@ -142,12 +174,178 @@ const mockIntakeData = [
     }
 ];
 
-export default function IntakeListTab() {
+interface HistoryNote {
+    id: string;
+    date: string;
+    content: string;
+    author: string;
+}
+
+const mockHistoryNotes: HistoryNote[] = [
+    {
+        id: '1',
+        date: '01/15/2026, 05:17:04 PM',
+        content: 'Rejected - The client was crossing Roosevelt Avenue, a heavily trafficked area, when she was struck by a city bus. According to the client, she did not sustain severe injuries other than a head injury, as she does not recall exactly how the accident occurred. The police did not respond to the scene; therefore, there is no police report. The only evidence the client has is a video recorded by a bystander who was present at the time. We will mark this case as rejected, as the accident occurred almost one month ago, there is no attorney representation, no medical treatment such as physical therapy, no MIC, and the injury is limited to the head. It\'s no a case for us. I talked about this case with Airam.',
+        author: 'Maria Laura Dominguez'
+    },
+    {
+        id: '2',
+        date: '01/15/2026, 08:35:11 PM',
+        content: 'I attempted to call Mr. Jason to his phone number, however, there was no response. I sent the email with the information and we\'re waiting for a response.',
+        author: 'Jaime Agudelo'
+    },
+    {
+        id: '3',
+        date: '01/15/2026, 05:44:27 PM',
+        content: 'PENDING INFO TO PRESENT (WC questions, Personal info): The TP portion hasn\'t been presented yet due to the client is on her way to the hospital and the WC and personal information. I will be calling to the client later on. Auth. By Greg.',
+        author: 'Gregory Montero Sierra'
+    }
+];
+
+interface IntakeListTabProps {
+    onEdit?: (id: string) => void;
+}
+
+export default function IntakeListTab({ onEdit }: IntakeListTabProps) {
     const [searchTerm, setSearchTerm] = useState('');
+    const [intakeData, setIntakeData] = useState<IntakeTableRow[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [page, setPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [totalElements, setTotalElements] = useState(0);
+    const [screenerCache, setScreenerCache] = useState<Record<string, UserResponse>>({});
+    const [historyModalOpen, setHistoryModalOpen] = useState(false);
+    const [selectedHistoryIntakeId, setSelectedHistoryIntakeId] = useState<string | null>(null);
     const { mode } = useTheme();
     const isDark = mode === 'dark';
+    const pageSize = 20;
 
-    const filteredData = mockIntakeData.filter(row =>
+    // Cargar datos de la API
+    useEffect(() => {
+        const loadIntakes = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await intakeService.getAllIntakes({
+                    page,
+                    size: pageSize,
+                    sort: ['createdAt,desc']
+                });
+
+                setTotalPages(response.totalPages);
+                setTotalElements(response.totalElements);
+
+                // Mapear los datos de la API a los campos de la tabla
+                const mappedData = await Promise.all(
+                    response.content.map(async (intake: IntakeResponse) => {
+                        // Obtener información del screener si no está en caché
+                        let screenerName = '-';
+                        if (intake.createdBy) {
+                            if (screenerCache[intake.createdBy]) {
+                                const user = screenerCache[intake.createdBy];
+                                screenerName = user.fullName || `${user.firstName || ''} ${user.lastName || ''}`.trim() || '-';
+                            } else {
+                                try {
+                                    const user = await intakeService.getUserById(intake.createdBy);
+                                    setScreenerCache(prev => ({ ...prev, [intake.createdBy]: user }));
+                                    screenerName = user.fullName || `${user.firstName || ''} ${user.lastName || ''}`.trim() || '-';
+                                } catch (err) {
+                                    console.warn('Error loading screener info:', err);
+                                }
+                            }
+                        }
+
+                        // Extraer información del cliente desde typeSpecificData o clientUserId
+                        let clientFirstName = '-';
+                        let clientLastName = '-';
+                        let clientPhone = '-';
+
+                        if (intake.typeSpecificData) {
+                            const typeData = intake.typeSpecificData as any;
+                            // Intentar obtener datos del cliente desde typeSpecificData
+                            if (typeData.persons && Array.isArray(typeData.persons) && typeData.persons.length > 0) {
+                                const person1 = typeData.persons[0];
+                                clientFirstName = person1.firstName || '-';
+                                clientLastName = person1.lastName || '-';
+                                clientPhone = person1.phoneNumber || '-';
+                            } else if (typeData.firstName) {
+                                clientFirstName = typeData.firstName;
+                                clientLastName = typeData.lastName || '-';
+                                clientPhone = typeData.phoneNumber || '-';
+                            }
+                        }
+
+                        // Obtener información del lead (main lead) - similar al cliente
+                        let mainLeadName = clientFirstName;
+                        let mainLeadLastName = clientLastName;
+                        let mainLeadPhone = clientPhone;
+
+                        // Mapear el tipo de accidente
+                        const typeOfAccident = intake.intakeType || '-';
+
+                        // Mapear el estado legal
+                        const legalStatus = intake.status || 'PENDING';
+                        const legalStatusMap: Record<string, string> = {
+                            'PENDING': 'Pending Full Intake',
+                            'QUALIFIED': 'Qualified',
+                            'REJECTED': 'Rejected',
+                            'CONVERTED': 'Converted',
+                            'FOLLOW_UP': 'Follow Up'
+                        };
+
+                        return {
+                            id: intake.id,
+                            mainLeadName: mainLeadName,
+                            mainLeadLastName: mainLeadLastName,
+                            mainLeadPhone: mainLeadPhone,
+                            code: intake.intakeNumber || '-',
+                            dateTimeIntake: intakeService.formatDateTime(intake.createdAt),
+                            screener: screenerName,
+                            callSource: intake.subsourceName || intake.subsourceText || '-',
+                            clientFirstName: clientFirstName,
+                            clientLastName: clientLastName,
+                            clientPhone: clientPhone,
+                            typeOfAccident: typeOfAccident,
+                            accidentState: intake.accidentLocation ? intake.accidentLocation.split(',')[1]?.trim() || '-' : '-',
+                            accidentDate: intakeService.formatDate(intake.accidentDate),
+                            handlingLawyer: '-', // No disponible en la API actual
+                            legalStatus: legalStatusMap[legalStatus] || legalStatus,
+                            dateLawyerAssigned: '-', // No disponible en la API actual
+                            historyLegalStatusNotes: 'See all'
+                        } as IntakeTableRow;
+                    })
+                );
+
+                setIntakeData(mappedData);
+            } catch (err: any) {
+                console.warn('API no disponible, usando datos mock:', err);
+
+                // Si la API no está disponible, usar datos mock silenciosamente
+                // Esto es esperado si el entorno aún no está configurado
+                setIntakeData(mockIntakeData);
+                setTotalPages(1);
+                setTotalElements(mockIntakeData.length);
+                setError(null); // No mostrar error, es esperado
+
+                // Solo mostrar error en consola para debugging
+                if (err.request && !err.response) {
+                    console.info(
+                        'ℹ️ La API no está disponible. ' +
+                        'Esto es normal si el entorno aún no está configurado. ' +
+                        'Se están usando datos mock para desarrollo.'
+                    );
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadIntakes();
+    }, [page]);
+
+    // Filtrar datos localmente
+    const filteredData = intakeData.filter(row =>
         row.mainLeadName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         row.mainLeadLastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         row.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -155,10 +353,14 @@ export default function IntakeListTab() {
         row.clientLastName.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value - 1); // MUI Pagination es 1-indexed, pero la API es 0-indexed
+    };
+
     return (
         <Box className="w-full pb-8">
-            <Typography 
-                variant="h2" 
+            <Typography
+                variant="h2"
                 className="font-extrabold text-black dark:text-white mb-6 text-2xl md:text-3xl"
                 sx={{ fontWeight: 700 }}
             >
@@ -174,11 +376,11 @@ export default function IntakeListTab() {
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
-                                <SearchIcon 
-                                    sx={{ 
+                                <SearchIcon
+                                    sx={{
                                         color: isDark ? '#9CA3AF' : '#6B7280',
                                         fontSize: '20px'
-                                    }} 
+                                    }}
                                 />
                             </InputAdornment>
                         ),
@@ -261,15 +463,15 @@ export default function IntakeListTab() {
                     borderRadius: '12px',
                     overflowX: 'auto',
                     backgroundColor: isDark ? '#111827' : '#FFFFFF',
-                    boxShadow: isDark 
-                        ? '0 4px 6px rgba(0, 0, 0, 0.3)' 
+                    boxShadow: isDark
+                        ? '0 4px 6px rgba(0, 0, 0, 0.3)'
                         : '0 4px 6px rgba(0, 0, 0, 0.1)',
                     maxHeight: 'calc(100vh - 300px)',
                     width: '100%',
                 }}
             >
-                <Table 
-                    sx={{ 
+                <Table
+                    sx={{
                         width: '100%',
                         tableLayout: 'fixed',
                         '& .MuiTableCell-root': {
@@ -308,12 +510,25 @@ export default function IntakeListTab() {
                             <TableCell align="center" sx={{ fontWeight: 700, fontSize: '0.8rem', color: isDark ? '#FFFFFF' : '#000000', width: '7%', padding: '14px 8px' }}>Legal status</TableCell>
                             <TableCell align="center" sx={{ fontWeight: 700, fontSize: '0.8rem', color: isDark ? '#FFFFFF' : '#000000', width: '7%', padding: '14px 8px' }}>Date lawyer assigned</TableCell>
                             <TableCell align="center" sx={{ fontWeight: 700, fontSize: '0.8rem', color: isDark ? '#FFFFFF' : '#000000', width: '7%', padding: '14px 8px' }}>History legal status notes</TableCell>
+                            <TableCell align="center" sx={{ fontWeight: 700, fontSize: '0.8rem', color: isDark ? '#FFFFFF' : '#000000', width: '5%', padding: '14px 8px' }}>Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredData.length === 0 ? (
+                        {loading ? (
                             <TableRow>
-                                <TableCell colSpan={17} align="center" sx={{ padding: '40px', color: isDark ? '#9CA3AF' : '#6B7280' }}>
+                                <TableCell colSpan={18} align="center" sx={{ padding: '40px' }}>
+                                    <CircularProgress size={40} sx={{ color: '#EAB308' }} />
+                                </TableCell>
+                            </TableRow>
+                        ) : error ? (
+                            <TableRow>
+                                <TableCell colSpan={18} align="center" sx={{ padding: '40px', color: isDark ? '#EF4444' : '#DC2626' }}>
+                                    <Typography variant="body1">{error}</Typography>
+                                </TableCell>
+                            </TableRow>
+                        ) : filteredData.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={18} align="center" sx={{ padding: '40px', color: isDark ? '#9CA3AF' : '#6B7280' }}>
                                     <Typography variant="body1">No se encontraron resultados</Typography>
                                 </TableCell>
                             </TableRow>
@@ -331,7 +546,7 @@ export default function IntakeListTab() {
                                             transition: 'background-color 0.2s ease',
                                         },
                                         '& td': {
-                                            borderBottom: index % 2 === 0 
+                                            borderBottom: index % 2 === 0
                                                 ? (isDark ? '1px solid #374151' : '1px solid #F3F4F6')
                                                 : (isDark ? '1px solid #4B5563' : '1px solid #FDE68A'),
                                         }
@@ -359,22 +574,45 @@ export default function IntakeListTab() {
                                             href="#"
                                             onClick={(e) => {
                                                 e.preventDefault();
-                                                // Handle "See all" click
+                                                setSelectedHistoryIntakeId(row.id);
+                                                setHistoryModalOpen(true);
                                             }}
-                                        sx={{
-                                            color: '#EAB308',
-                                            textDecoration: 'underline',
-                                            cursor: 'pointer',
-                                            fontSize: '0.8rem',
-                                            fontWeight: 500,
-                                            '&:hover': {
-                                                color: '#FCD34D',
+                                            sx={{
+                                                color: '#EAB308',
                                                 textDecoration: 'underline',
-                                            }
-                                        }}
+                                                cursor: 'pointer',
+                                                fontSize: '0.8rem',
+                                                fontWeight: 500,
+                                                '&:hover': {
+                                                    color: '#FCD34D',
+                                                    textDecoration: 'underline',
+                                                }
+                                            }}
                                         >
                                             {row.historyLegalStatusNotes}
                                         </Typography>
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ padding: '12px 8px' }}>
+                                        <Box
+                                            component="img"
+                                            src="/icons/iconos-svg/editar.svg"
+                                            alt="Edit"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                if (onEdit) {
+                                                    onEdit(row.id);
+                                                }
+                                            }}
+                                            sx={{
+                                                width: '20px',
+                                                height: '20px',
+                                                cursor: 'pointer',
+                                                filter: isDark ? 'invert(1)' : 'none',
+                                                '&:hover': {
+                                                    opacity: 0.8
+                                                }
+                                            }}
+                                        />
                                     </TableCell>
                                 </TableRow>
                             ))
@@ -382,6 +620,167 @@ export default function IntakeListTab() {
                     </TableBody>
                 </Table>
             </TableContainer>
+
+            {/* Paginación */}
+            {!loading && !error && totalPages > 1 && (
+                <Box className="flex justify-center mt-6">
+                    <Pagination
+                        count={totalPages}
+                        page={page + 1}
+                        onChange={handlePageChange}
+                        color="primary"
+                        sx={{
+                            '& .MuiPaginationItem-root': {
+                                color: isDark ? '#FFFFFF' : '#000000',
+                                '&.Mui-selected': {
+                                    backgroundColor: '#EAB308',
+                                    color: '#000000',
+                                    '&:hover': {
+                                        backgroundColor: '#FCD34D',
+                                    }
+                                },
+                                '&:hover': {
+                                    backgroundColor: isDark ? '#374151' : '#F3F4F6',
+                                }
+                            }
+                        }}
+                    />
+                </Box>
+            )}
+
+            {/* Información de paginación */}
+            {!loading && (
+                <Box className="flex justify-center mt-4">
+                    <Typography variant="body2" sx={{ color: isDark ? '#9CA3AF' : '#6B7280' }}>
+                        Mostrando {filteredData.length} de {totalElements} intakes
+                        {process.env.NODE_ENV === 'development' && intakeData.length > 0 && intakeData[0]?.id === '1' && (
+                            <span style={{ marginLeft: '8px', fontStyle: 'italic' }}>
+                                (Datos de demostración)
+                            </span>
+                        )}
+                    </Typography>
+                </Box>
+            )}
+
+            {/* History Modal */}
+            <Dialog
+                open={historyModalOpen}
+                onClose={() => setHistoryModalOpen(false)}
+                maxWidth={false}
+                PaperProps={{
+                    sx: {
+                        borderRadius: '8px',
+                        backgroundColor: isDark ? '#1F2937' : '#FFFFFF',
+                        color: isDark ? '#FFFFFF' : '#000000',
+                        boxShadow: isDark
+                            ? '0 10px 25px rgba(0, 0, 0, 0.5)'
+                            : '0 10px 25px rgba(0, 0, 0, 0.15)',
+                        width: '90%',
+                        maxWidth: '1000px',
+                        maxHeight: '90vh',
+                        height: 'auto',
+                        margin: '32px auto',
+                        display: 'flex',
+                        flexDirection: 'column'
+                    }
+                }}
+            >
+                <DialogTitle sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: '24px 48px 20px 48px',
+                    position: 'relative',
+                    borderBottom: isDark ? '1px solid #374151' : '1px solid #E5E7EB',
+                    pb: '20px'
+                }}>
+                    <Typography variant="h5" component="div" sx={{
+                        fontWeight: 700,
+                        textAlign: 'center',
+                        color: isDark ? '#FFFFFF' : '#000000',
+                        fontSize: '1.125rem'
+                    }}>
+                        History Legal Status Note
+                    </Typography>
+                    <IconButton
+                        onClick={() => setHistoryModalOpen(false)}
+                        sx={{
+                            position: 'absolute',
+                            right: 12,
+                            top: 12,
+                            color: isDark ? '#9CA3AF' : '#6B7280',
+                            padding: '8px',
+                            '&:hover': {
+                                backgroundColor: isDark ? '#374151' : '#F3F4F6'
+                            }
+                        }}
+                    >
+                        <CloseIcon fontSize="small" />
+                    </IconButton>
+                </DialogTitle>
+                <DialogContent sx={{
+                    padding: '32px 48px',
+                    flex: '1 1 auto',
+                    overflowY: 'auto',
+                    minHeight: '400px'
+                }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+                        {mockHistoryNotes.map((note, index) => (
+                            <Box key={note.id} sx={{ marginBottom: index < mockHistoryNotes.length - 1 ? '40px' : 0 }}>
+                                <Typography
+                                    component="div"
+                                    sx={{
+                                        color: '#EAB308',
+                                        fontWeight: 700,
+                                        marginBottom: '20px !important',
+                                        fontSize: '0.875rem',
+                                        lineHeight: 1.5,
+                                        display: 'block'
+                                    }}
+                                >
+                                    {note.date}
+                                </Typography>
+                                <Box sx={{ height: '12px' }} /> {/* Espacio adicional forzado */}
+                                <Typography
+                                    variant="body1"
+                                    component="div"
+                                    sx={{
+                                        marginBottom: '12px',
+                                        lineHeight: 1.6,
+                                        color: isDark ? '#FFFFFF' : '#000000',
+                                        fontSize: '0.875rem',
+                                        fontWeight: 400,
+                                        display: 'block'
+                                    }}
+                                >
+                                    {note.content}
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    component="div"
+                                    sx={{
+                                        fontStyle: 'italic',
+                                        fontWeight: 900,
+                                        color: isDark ? '#FFFFFF' : '#000000',
+                                        fontSize: '0.875rem',
+                                        display: 'block'
+                                    }}
+                                >
+                                    ({note.author})
+                                </Typography>
+                                {index < mockHistoryNotes.length - 1 && (
+                                    <Divider sx={{
+                                        mt: '40px',
+                                        mb: 0,
+                                        borderColor: isDark ? '#374151' : '#E5E7EB',
+                                        opacity: isDark ? 0.2 : 0.5
+                                    }} />
+                                )}
+                            </Box>
+                        ))}
+                    </Box>
+                </DialogContent>
+            </Dialog>
         </Box>
     );
 }

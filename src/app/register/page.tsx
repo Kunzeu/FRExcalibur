@@ -102,7 +102,7 @@ export default function RegisterPage() {
                     <Typography variant="h3" className="font-bold mb-2 text-primary-main">
                         Create Account
                     </Typography>
-                    <Typography variant="body1" color="text.secondary">
+                    <Typography variant="body1" className="text-black dark:text-white">
                         Join FR EXCALIBUR
                     </Typography>
                 </Box>
@@ -270,7 +270,7 @@ export default function RegisterPage() {
                             </Button>
                         </form>
 
-                        <Typography variant="body2" className="text-center mt-6" color="text.secondary">
+                        <Typography variant="body2" className="text-center mt-6 text-black dark:text-white">
                             Already have an account?{' '}
                             <Link href="/login" className="font-semibold">
                                 Sign in
@@ -279,7 +279,7 @@ export default function RegisterPage() {
                     </CardContent>
                 </Card>
 
-                <Typography variant="caption" className="text-center block mt-6" color="text.secondary">
+                <Typography variant="caption" className="text-center block mt-6 text-black dark:text-white">
                     © {new Date().getFullYear()} FR EXCALIBUR. All rights reserved.
                 </Typography>
             </Container>

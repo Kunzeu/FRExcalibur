@@ -195,7 +195,7 @@ export default function LoginPage() {
                                         className="mr-2 w-4 h-4 accent-primary-main"
                                     />
                                     <label htmlFor="remember-me">
-                                        <Typography variant="body2" color="text.secondary" className="cursor-pointer">
+                                        <Typography variant="body2" className="text-white dark:text-black cursor-pointer">
                                             Remember me
                                         </Typography>
                                     </label>
@@ -217,8 +217,8 @@ export default function LoginPage() {
                             </Button>
                         </form>
 
-                        <Typography variant="body2" className="text-center mt-6" color="text.secondary">
-                            Don&apos;t have an account?{' '}
+                        <Typography variant="caption" className="text-center block mt-6 text-white dark:text-black">
+                        Don&apos;t have an account?{' '}
                             <Link href="/register" className="font-semibold">
                                 Sign up here
                             </Link>
@@ -226,7 +226,7 @@ export default function LoginPage() {
                     </CardContent>
                 </Card>
 
-                <Typography variant="caption" className="text-center block mt-6" color="text.secondary">
+                <Typography variant="caption" className="text-center block mt-6 text-white dark:text-black">
                     © {new Date().getFullYear()} FR EXCALIBUR. All rights reserved.
                 </Typography>
             </Container>

@@ -831,9 +831,9 @@ export default function Step3ClientInjuryComplaints({
                                                     value={formData.priorAccidentType || ''}
                                                     onChange={(e: any) => handleChange('priorAccidentType', e.target.value)}
                                                 >
-                                                    <option value="Auto Accident">Auto Accident</option>
+                                                    <option value="Car accident">Car accident</option>
+                                                    <option value="Work Related Accident">Work Related Accident</option>
                                                     <option value="Slip and Fall">Slip and Fall</option>
-                                                    <option value="Workplace Accident">Workplace Accident</option>
                                                     <option value="Other">Other</option>
                                                 </CustomInput>
                                             )}
@@ -883,6 +883,16 @@ export default function Step3ClientInjuryComplaints({
                                                             label={<span className="text-sm font-bold text-gray-700 dark:text-gray-200">No</span>}
                                                         />
                                                     </RadioGroup>
+                                                    {formData.priorAccidentLegalRep === 'yes' && (
+                                                        <Box className="mt-8">
+                                                            <CustomInput
+                                                                required
+                                                                label="Name of your Lawyer"
+                                                                value={formData.priorAccidentLawyerName || ''}
+                                                                onChange={(e: any) => handleChange('priorAccidentLawyerName', e.target.value)}
+                                                            />
+                                                        </Box>
+                                                    )}
                                                 </Box>
                                             )}
                                         </Grid>
