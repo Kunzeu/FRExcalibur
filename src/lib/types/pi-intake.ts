@@ -108,6 +108,8 @@ export interface PIIntakeFormData {
     drivingVehicle: string;
     workingAtTime: string;
     policeCalled: string;
+    vehicleStayedAtScene: string;
+    hasLicensePlatePicture: string;
     policeArrivedAtScene: string;
     ambulanceCalled: string;
     ambulanceArrivedAtScene: string;
@@ -309,6 +311,8 @@ export const initialPIIntakeFormData: PIIntakeFormData = {
     drivingVehicle: '',
     workingAtTime: '',
     policeCalled: '',
+    vehicleStayedAtScene: '',
+    hasLicensePlatePicture: '',
     policeArrivedAtScene: '',
     ambulanceCalled: '',
     ambulanceArrivedAtScene: '',

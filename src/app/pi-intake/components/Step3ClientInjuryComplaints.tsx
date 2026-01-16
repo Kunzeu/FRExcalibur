@@ -1024,6 +1024,7 @@ export default function Step3ClientInjuryComplaints({
                                                 <CustomInput
                                                     required
                                                     label="What is your Home Address?"
+                                                    placeholder="Enter the street"
                                                     value={formData.address || ''}
                                                     onChange={(e: any) => handleChange('address', e.target.value)}
                                                 />
@@ -1089,6 +1090,7 @@ export default function Step3ClientInjuryComplaints({
                                     <Box className="w-1/2">
                                         <CustomInput
                                             label="# Apto"
+                                            placeholder="Enter apartment number"
                                             value={formData.addressUnit || ''}
                                             onChange={(e: any) => handleChange('addressUnit', e.target.value)}
                                         />

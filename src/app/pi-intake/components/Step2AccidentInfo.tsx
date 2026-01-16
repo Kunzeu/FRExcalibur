@@ -658,6 +658,7 @@ export default function Step2AccidentInfo({
                             <CustomInput
                                 label={formData.involvedInAutoAccident === 'yes' ? 'Description' : (formData.accidentAtWork === 'yes' ? 'Description of the accident' : 'Description')}
                                 multiline
+                                placeholder="Some quick notes about this contact..."
                                 rows={4}
                                 value={formData.accidentDescription || ''}
                                 onChange={(e: any) => handleChange('accidentDescription', e.target.value)}
@@ -693,7 +694,7 @@ export default function Step2AccidentInfo({
                                         onChange={(e) => {
                                             handleChange('accidentLocation', e.target.value);
                                         }}
-                                        placeholder=""
+                                        placeholder="Accident Address"
                                         className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 text-base !text-gray-900 !bg-white
                                                 ${validationErrors.accidentLocation ? 'border-red-500 focus:border-red-600' : 'border-gray-200 dark:border-gray-700 focus:border-primary-main'}
                                                 focus:outline-none focus:ring-2 focus:ring-primary-main/20
@@ -1419,6 +1420,7 @@ export default function Step2AccidentInfo({
                                 <Box className="mt-8">
                                     <CustomInput
                                         label="Explain type of Policy"
+                                        placeholder="Some quick notes about this policy..."
                                         multiline
                                         rows={4}
                                         value={formData.typeOfPolicyNote || ''}

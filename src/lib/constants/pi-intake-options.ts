@@ -10,25 +10,25 @@ export const INJURY_OPTIONS = [
     { label: 'Neck pain', key: 'neckPain' },
     { label: 'Back Pain', key: 'backPain' },
     { label: 'Lower Back Pain', key: 'lowerBackPain' },
-    
+
     // Right side extremities
     { label: 'Right shoulder pain', key: 'rightShoulderPain' },
     { label: 'Right arm pain radiating', key: 'rightArmPainRadiating' },
     { label: 'Right knee pain', key: 'rightKneePain' },
     { label: 'Right leg pain radiating', key: 'rightLegPainRadiating' },
-    
+
     // Left side extremities
     { label: 'Left shoulder pain', key: 'leftShoulderPain' },
     { label: 'Left arm pain radiating', key: 'leftArmPainRadiating' },
     { label: 'Left knee pain', key: 'leftKneePain' },
     { label: 'Left leg pain radiating', key: 'leftLegPainRadiating' },
-    
+
     // Other injuries
     { label: 'Lost / broken teeth', key: 'lostBrokenTeeth', hasInput: true, inputLabel: 'Missing/Broken Teeth?', inputKey: 'teethDetails' },
     { label: 'Laceration stitches', key: 'lacerationStitches', hasInput: true, inputLabel: 'Number of Stitches and Location?', inputKey: 'stitchesDetails' },
     { label: 'Multiple contusions', key: 'multipleContusions' },
     { label: 'Fractured bone', key: 'fracturedBone', hasInput: true, inputLabel: 'What bones are fracture?', inputKey: 'fractureBonesDetails' },
-    { label: 'Admitted to Hospital', key: 'admittedToHospital', hasInput: true, inputLabel: 'Number of days in hospital?', inputKey: 'hospitalDays' },
+    { label: 'Admitted to Hospital', key: 'admittedToHospital', hasInput: true, inputLabel: 'Which Hospital and for how many days?', inputKey: 'hospitalDays' },
     { label: 'Surgery', key: 'surgery', hasInput: true, inputLabel: 'Type of Surgery?', inputKey: 'surgeryDetails' },
     { label: 'Other', key: 'otherInjury', hasInput: true, inputLabel: 'What other type of injury?', inputKey: 'otherInjuryDetails' },
 ];

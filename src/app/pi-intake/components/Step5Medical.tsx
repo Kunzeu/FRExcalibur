@@ -342,6 +342,7 @@ export default function Step5Medical({ formData, handleChange, prevStep, handleS
                 <Box className="mb-8">
                     <CustomInput
                         label="Medical Status Note"
+                        placeholder="Some quick notes about this intake..."
                         multiline
                         rows={4}
                         value={formData.medicalStatusNote || ''}

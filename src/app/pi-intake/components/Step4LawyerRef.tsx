@@ -17,7 +17,7 @@ const STATUS_TOOLTIPS: { [key: string]: string } = {
     'Lawyer Assigned - Under evaluation': "The case has been assigned to a handling lawyer, who is currently evaluating the details of the case.",
     'Retained': "The case has been retained by the client.",
     'Pending to present': "The case is waiting for some additional information to be completed or presented, before it can be further evaluated or assigned.",
-    'Retained Dropped':'Retained Dropped',
+    'Retained Dropped': 'Retained Dropped',
     'Pending Full Intake': 'Some information has yet to be entered in the intake',
     'Rejected - No case': 'The case is rejected. Specify the reason in the Legal Status Note field.',
     'Retained Decided NOT to Pursue': 'The customer desisted from pursuing the case. Indicate the reason in the Legal Status Note field.',
@@ -31,23 +31,22 @@ const STATUS_TOOLTIPS: { [key: string]: string } = {
 const STATUS_COLUMNS = [
     [
         'Lawyer Assigned - Pending sign-up',
-        'Pending to present',
+        'Pending Full Intake',
         'Rejected - No case',
-        'Client non-compliant',
-        'Client decided not to pursue'
+        'Client decided not to pursue',
+        'Retained Decided NOT to Pursue',
+    ],
+    [
+        'Lawyer Assigned - Under evaluation',
+        'Pending to present',
+        'Rejected - Not accident related',
+        'Retained Dropped',
     ],
     [
         'Retained',
-        'Retained Dropped',
-        'Retained Decided NOT to Pursue',
-        'Lawyer Assigned - Under evaluation',
-        'Retained Subbed'
-    ],
-    [
-        'Lawyer Assigned - Under evaluation',
-        'Pending Full Intake',
         'Pending info to present',
-        'Rejected - Not accident related'
+        'Client non-compliant',
+        'Retained Subbed'
     ]
 ];
 
@@ -115,9 +114,9 @@ export default function Step4LawyerRef({ formData, handleChange, nextStep, prevS
                 Lawyer Status {validationErrors.lawyerStatus && '*'}
             </Typography>
 
-            <Box role="radiogroup" aria-labelledby="lawyer-status-header" className="max-w-4xl mx-auto">
-                <Box className={`mb-12 relative ${validationErrors.lawyerStatus ? 'p-4 border-2 border-red-100 bg-red-50 rounded-2xl' : ''}`}>
-                    <Grid container spacing={4}>
+            <Box role="radiogroup" aria-labelledby="lawyer-status-header" className="max-w-5xl mx-auto">
+                <Box className={`pl-12 mb-12 relative ${validationErrors.lawyerStatus ? 'p-4 border-2 border-red-100 bg-red-50 rounded-2xl' : ''}`}>
+                    <Grid container spacing={0}>
                         {STATUS_COLUMNS.map((column, colIndex) => (
                             <Grid item xs={12} md={4} key={colIndex}>
                                 <div className="flex flex-col gap-4">
@@ -178,20 +177,22 @@ export default function Step4LawyerRef({ formData, handleChange, nextStep, prevS
                     </FormHelperText>
                 )}
 
-                {/* Note */}
-                <Typography variant="h6" className="font-bold text-black dark:text-white mb-4 text-sm">
-                    Legal Status Note
-                </Typography>
-                <div className="mb-12">
-                    <CustomInput
-                        label=""
-                        placeholder=""
-                        multiline
-                        rows={6}
-                        value={formData.legalStatusNote || ''}
-                        onChange={(e: any) => handleChange('legalStatusNote', e.target.value)}
-                    />
-                </div>
+                {/* Note - Wrapped to maintain original width */}
+                <Box className="max-w-4xl mx-auto">
+                    <Typography variant="h6" className="font-bold text-black dark:text-white mb-4 text-sm">
+                        Legal Status Note
+                    </Typography>
+                    <div className="mb-12">
+                        <CustomInput
+                            label=""
+                            placeholder="Some quick notes about this intake..."
+                            multiline
+                            rows={6}
+                            value={formData.legalStatusNote || ''}
+                            onChange={(e: any) => handleChange('legalStatusNote', e.target.value)}
+                        />
+                    </div>
+                </Box>
             </Box>
 
             {/* Sign Up Section */}
